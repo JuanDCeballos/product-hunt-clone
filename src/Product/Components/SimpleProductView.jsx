@@ -1,4 +1,4 @@
-import { CiChat2 } from "react-icons/ci";
+import { CiChat2, CiSquareChevUp } from "react-icons/ci";
 
 export const SimpleProductView = ({ productInfo }) => {
 
@@ -7,26 +7,42 @@ export const SimpleProductView = ({ productInfo }) => {
         productCategory, RatingCount } = productInfo;
     return (
         <>
-            <div
-                className="flex flex-row"
+            <a>
+                <div className="flex flex-row justify-between space-x-4 ">
+                    <div
+                        className="flex flex-row space-x-6 items-center"
+                    >
+                        <img className="size-16 rounded-lg" src={picture} />
 
-            >
-                <img className="size-16" src={picture} />
+                        <div className="flex flex-col space-y-2 justify-start">
 
-                <div className="flex flex-col">
+                            <div className="flex space-x-2">
+                                <h4 className="font-semibold">{productName} —  {productShortDescription}</h4>
+                            </div>
 
-                    <div className="flex flex-row">
-                        <h4 className="productNameText"> {productName} — {productShortDescription} </h4>
+                            <div className="flex space-x-2 items-center">
+
+                                <CiChat2 />
+                                <h4 className="font-normal"> {ComentsCount}</h4>
+                                <h4 className="font-normal"> • </h4>
+                                <h4 className="font-normal">{productPlatform}</h4>
+                                <h4 className="font-normal"> • </h4>
+                                <h4 className="font-normal">{softwareProductType}</h4>
+                                <h4 className="font-normal"> • </h4>
+                                <h4 className="font-normal">{productCategory}</h4>
+
+                            </div>
+                        </div>
                     </div>
 
-                    <div className="flex flex-row">
-                        <CiChat2 />
-                        <h4 className="secondLineProductText"> {ComentsCount} • {productPlatform} • {softwareProductType} • {productCategory} </h4>
-                    </div>
-
+                    <button className="border-l border-indigo-100 px-6 size-16">
+                        <div className="flex flex-col items-center">
+                            <CiSquareChevUp />
+                            {RatingCount}
+                        </div>
+                    </button>
                 </div>
-
-            </div>
+            </a>
         </>
     );
 };
