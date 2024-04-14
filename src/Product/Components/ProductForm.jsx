@@ -1,6 +1,4 @@
-import React from "react";
-
-const ProductForm = () => {
+export const ProductForm = () => {
   return (
     <div className="bg-gray-100 py-10">
       <div className="max-w-3xl mx-auto">
@@ -282,5 +280,3 @@ const ProductForm = () => {
     </div>
   );
 };
-
-export default ProductForm;

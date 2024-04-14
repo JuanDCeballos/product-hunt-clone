@@ -1,37 +1,21 @@
-import { useState } from 'react';
-import Modal from './Product/Modal';
 import { HomePageComponent } from './Home/Components/HomePageComponent';
-import { ProductListComponent } from './Product/Components/ProductListComponent';
-import Header from './Home/Components/Header';
-import ProductForm from './Product/ProductForm';
-import UserProfile from './User/Components/UserProfile';
+import { Header } from './Home/Components/Header';
+import { Outlet, Route, Routes } from 'react-router-dom';
+import { ProductForm } from './Product/Components/ProductForm';
+import { UserProfile } from './User/Components/UserProfile.jsx';
 
 const App = () => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const openModal = () => {
-    setIsOpen((prevState) => !prevState);
-  };
-
-  const closeModal = () => {
-    setIsOpen((prevState) => !prevState);
-  };
 
   return (
     <>
-      <div>
-        <h1 className='text-3xl font-bold underline'>Hello world!</h1>
-        <p>This is a test</p>
-        <button onClick={openModal}>Open</button>
-        <Modal isOpen={isOpen} closeModal={closeModal} />
+      <Header />
 
-        <Header />
-        <UserProfile />
-        <ProductForm />
-        <HomePageComponent />
+      <Routes>
+        <Route path='/' element={<HomePageComponent />} />
+        <Route path='SumbitProduct' element={<ProductForm />} />
+        <Route path='UserProfile' element={<UserProfile />} />
+      </Routes>
 
-        {/* Resto del contenido de la aplicación */}
-      </div>
     </>
   );
 };
