@@ -1,14 +1,29 @@
 import { CiChat2, CiSquareChevUp } from "react-icons/ci";
+import Modal from './Modal.jsx'
+import { useState } from "react";
 
 export const SimpleProductView = ({ productInfo }) => {
 
     const { picture, productName, productShortDescription,
         ComentsCount, productPlatform, softwareProductType,
         productCategory, RatingCount } = productInfo;
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    const openModal = () => {
+        setIsOpen((prevState) => !prevState);
+    };
+
+    const closeModal = () => {
+        setIsOpen((prevState) => !prevState);
+    };
+
+
     return (
         <>
+            <Modal isOpen={isOpen} closeModal={closeModal} />
             <a>
-                <div className="flex flex-row justify-between space-x-4 ">
+                <div className="flex flex-row justify-between space-x-4 " onClick={openModal}>
                     <div
                         className="flex flex-row space-x-6 items-center"
                     >
@@ -41,8 +56,8 @@ export const SimpleProductView = ({ productInfo }) => {
                             {RatingCount}
                         </div>
                     </button>
-                </div>
-            </a>
+                </div >
+            </a >
         </>
     );
 };
