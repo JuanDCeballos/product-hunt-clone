@@ -1,8 +1,17 @@
+import Header from "./Home/Components/Header";
+import ProductForm from "./Product/ProductForm";
+import UserProfile from "./User/Components/UserProfile";
+
 const App = () => {
   return (
     <>
-      <h1 className='text-3xl font-bold underline'>Hello world!</h1>
-      <p>This is a test</p>
+      <div>
+        <Header />
+        <UserProfile />
+        <ProductForm />
+
+        {/* Resto del contenido de la aplicación */}
+      </div>
     </>
   );
 };
