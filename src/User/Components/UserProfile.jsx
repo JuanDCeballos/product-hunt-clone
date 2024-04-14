@@ -1,6 +1,4 @@
-import React from "react";
-
-const UserProfile = () => {
+export const UserProfile = () => {
   return (
     <div className="flex justify-center items-center bg-gray-100 py-10">
       <div className="bg-white rounded-lg shadow-md w-full max-w-md p-10">
@@ -84,5 +82,3 @@ const UserProfile = () => {
     </div>
   );
 };
-
-export default UserProfile;
