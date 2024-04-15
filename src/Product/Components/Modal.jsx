@@ -6,6 +6,7 @@ import { BiSolidUpArrow } from 'react-icons/bi';
 import { CiChat2, CiBookmark } from 'react-icons/ci';
 import { IoShareOutline } from 'react-icons/io5';
 import { PiChartBarThin } from 'react-icons/pi';
+import { IoMdClose } from "react-icons/io";
 import Review from './Review';
 
 Modal.setAppElement(document.getElementById('root'));
@@ -16,10 +17,13 @@ const ProductView = ({ isOpen, closeModal }) => {
       <Modal isOpen={isOpen} onRequestClose={closeModal} width={600}>
         <div className='font-mono'>
           <div className='flex flex-col sm:flex-col'>
-            <img
-              src='https://ph-files.imgix.net/fb840955-b221-4af8-bb41-cc040a28fcf0.png?auto=compress&codec=mozjpeg&cs=strip&auto=format&w=48&h=48&fit=crop&dpr=1'
-              className='size-16'
-            />
+            <div className="flex justify-between">
+              <img
+                src='https://ph-files.imgix.net/fb840955-b221-4af8-bb41-cc040a28fcf0.png?auto=compress&codec=mozjpeg&cs=strip&auto=format&w=48&h=48&fit=crop&dpr=1'
+                className='size-16'
+              />
+              <button onClick={closeModal} className="text-5xl font-black hover:text-orange-400"><IoMdClose /></button>
+            </div>
             <div className='sm:flex sm:flex-row sm:gap-4'>
               <div>
                 <h1 className='font-black text-2xl'>Notion Calendar</h1>
