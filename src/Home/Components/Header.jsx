@@ -1,6 +1,18 @@
-import { Link, Outlet } from "react-router-dom";
+import { useContext } from "react";
+import { Link } from "react-router-dom";
+import { UserContext } from "../../Users/Contexts/Context/UserContext.jsx"
 
 export const Header = () => {
+
+  const { User: Logged } = useContext(UserContext)
+  let ImageURL;
+
+  if (!Logged)
+    ImageURL = "https://cdn-icons-png.flaticon.com/512/6326/6326055.png";
+  else
+    ImageURL = "https://www.kienyke.com/sites/default/files/styles/interna_contenido_s/public/2023-04/JH%20de%20la%20Cruz%20historia_0001_9.jpg?itok=VZnny0nN"
+
+  console.log(Logged);
   return (
     <>
       <header className="bg-gray-800 p-4">
@@ -98,7 +110,7 @@ export const Header = () => {
             </svg>
             <Link to="UserProfile">
               <img
-                src="https://www.kienyke.com/sites/default/files/styles/interna_contenido_s/public/2023-04/JH%20de%20la%20Cruz%20historia_0001_9.jpg?itok=VZnny0nN"
+                src={ImageURL}
                 className="w-10 h-10 rounded-full"
               />
             </Link>
