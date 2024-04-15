@@ -61,19 +61,19 @@ export const Header = () => {
               </Link>
             </li>
             <li>
-              <a className="text-white hover:text-gray-300">
+              <Link to="UnderConstruction" className="text-white hover:text-gray-300">
                 New
-              </a>
+              </Link>
             </li>
             <li>
-              <a className="text-white hover:text-gray-300">
+              <Link to="UnderConstruction" className="text-white hover:text-gray-300">
                 Community
-              </a>
+              </Link>
             </li>
             <li>
-              <a className="text-white hover:text-gray-300">
+              <Link to="UnderConstruction" className="text-white hover:text-gray-300">
                 Advertise
-              </a>
+              </Link>
             </li>
           </ul>
           <div className="flex items-center space-x-4">
