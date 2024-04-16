@@ -1,9 +1,14 @@
 import { useContext } from "react"
 import { UserContext } from "../../Users/Contexts/Context/UserContext.jsx"
+import { Link } from "react-router-dom";
 
 export const LogInComponent = () => {
 
     const { SetUser } = useContext(UserContext)
+
+    const LogInUser = () => {
+        SetUser({ "name": "JH de la cruz", "Logged": "True" });
+    }
 
     return (
         <>
@@ -15,7 +20,13 @@ export const LogInComponent = () => {
 
                     <h2 className="mt-6 ml-16"> PassWord </h2>
                     <input className="w-3/4 rounded-full ml-16 mt-1.5 h-8 text-center " type="password" />
-                    <button className="bg-gray-800 rounded-full mt-16 ml-16 mb-8 w-3/4 h-8 text-white"> Log In </button>
+
+                    <Link to="/">
+                        <button className="bg-gray-800 rounded-full mt-16 ml-16 mb-8 w-3/4 h-8 text-white"
+                            onClick={LogInUser}>
+                            Log In
+                        </button>
+                    </Link>
                 </div>
             </div>
 
