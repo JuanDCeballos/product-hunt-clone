@@ -5,6 +5,7 @@ import { ProductForm } from './Product/Components/ProductForm';
 import { UserProfile } from './Users/Components/UserProfile.jsx';
 import { UserProvider } from './Users/Contexts/Providers/UserProvider.jsx'
 import { LogInComponent } from './Login/Components/LogInComponent.jsx';
+import { ProductProvider } from './Product/Contexts/Provider/ProductProvider.jsx'
 
 const App = () => {
 
@@ -14,7 +15,11 @@ const App = () => {
         <Header />
 
         <Routes>
-          <Route path='*' element={<HomePageComponent />} />
+
+          <ProductProvider>
+            <Route path='*' element={<HomePageComponent />} />
+          </ProductProvider>
+
           <Route path='SumbitProduct' element={<ProductForm />} />
           <Route path='UserProfile' element={<UserProfile />} />
           <Route path='LogIn' element={<LogInComponent />} />

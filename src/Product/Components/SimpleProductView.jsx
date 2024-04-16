@@ -21,7 +21,7 @@ export const SimpleProductView = ({ productInfo }) => {
 
     return (
         <>
-            <Modal isOpen={isOpen} closeModal={closeModal} />
+            <Modal isOpen={isOpen} closeModal={closeModal} product={productInfo} />
             <a>
                 <div className="flex flex-row justify-between space-x-4 " onClick={openModal}>
                     <div
