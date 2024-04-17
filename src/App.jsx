@@ -12,19 +12,21 @@ const App = () => {
   return (
     <>
       <UserProvider>
-        <Header />
+        <ProductProvider>
+          <Header />
 
-        <Routes>
+          <Routes>
 
-          <ProductProvider>
             <Route path='*' element={<HomePageComponent />} />
-          </ProductProvider>
 
-          <Route path='SumbitProduct' element={<ProductForm />} />
-          <Route path='UserProfile' element={<UserProfile />} />
-          <Route path='LogIn' element={<LogInComponent />} />
-        </Routes>
+
+            <Route path='SumbitProduct' element={<ProductForm />} />
+            <Route path='UserProfile' element={<UserProfile />} />
+            <Route path='LogIn' element={<LogInComponent />} />
+          </Routes>
+        </ProductProvider>
       </UserProvider>
+
 
     </>
   );

@@ -7,12 +7,17 @@ import { CiChat2, CiBookmark } from 'react-icons/ci';
 import { IoShareOutline } from 'react-icons/io5';
 import { PiChartBarThin } from 'react-icons/pi';
 import Review from './Review';
+import { useContext } from 'react';
+import { ProductContext } from '../Contexts/Context/ProductContext';
 
 Modal.setAppElement(document.getElementById('root'));
 
-const ProductView = ({ isOpen, closeModal, product }) => {
+const ProductView = ({ isOpen, closeModal }) => {
 
-  const { picture, productName, productShortDescription, RatingCount
+  const { product } = useContext(ProductContext);
+
+  const { picture, productName, productShortDescription,
+    RatingCount, longDescription, MediaLink
   } = product;
 
   return (
@@ -46,10 +51,7 @@ const ProductView = ({ isOpen, closeModal, product }) => {
               </div>
               <div>
                 <p>
-                  Meet Notion Calendar — integrated and synced with all your
-                  Google Calendar events. (1) Simplify time management. (2)
-                  Fully integrated with your Notion workspace. (3) All your
-                  commitments in one place.
+                  {longDescription}
                 </p>
               </div>
               <div className='flex flex-wrap gap-1'>
