@@ -1,12 +1,24 @@
-import { useContext } from "react";
-import { UserContext } from '../Contexts/Context/UserContext.jsx'
+import { useContext } from 'react';
+import { UserContext } from '../Contexts/Context/UserContext.jsx';
 
 export const UserProfile = () => {
-
   const { User } = useContext(UserContext);
-  const { UserName, UserID, Picture, CommunityMember, Streak,
-    Followers, Following, Profile, Work, Email, PassWord, CreatedDateTime, ModifiedDateTime,
-    BIO } = User;
+  const {
+    UserName,
+    UserID,
+    Picture,
+    CommunityMember,
+    Streak,
+    Followers,
+    Following,
+    Profile,
+    Work,
+    Email,
+    PassWord,
+    CreatedDateTime,
+    ModifiedDateTime,
+    BIO,
+  } = User;
 
   return (
     <>
@@ -68,7 +80,7 @@ export const UserProfile = () => {
               <h3 className="text-lg font-bold bg-gray-800 text-white px-2 py-1 rounded-full text-xs">
                 CREATED AT
               </h3>
-              <p className="mt-4" >{CreatedDateTime}</p>
+              <p className="mt-4">{CreatedDateTime}</p>
             </div>
             <div className="mt-4">
               <h3 className="text-lg font-bold bg-gray-800 text-white px-2 py-1 rounded-full text-xs">
@@ -81,7 +93,7 @@ export const UserProfile = () => {
             <h3 className="text-lg font-bold bg-gray-800 text-white px-2 py-1 rounded-full text-xs flex justify-center">
               BIO
             </h3>
-            <p className="mt-4" > {BIO} </p>
+            <p className="mt-4"> {BIO} </p>
           </div>
           <div className="mt-8 flex justify-start">
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
