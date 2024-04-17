@@ -7,7 +7,7 @@ import { PageNotFound } from "./ShareUI/Components/PageNotFound.jsx";
 
 const router = createBrowserRouter([
   {
-    path: "*",
+    path: "/",
     element: <App />,
     errorElement: <PageNotFound />,
 
@@ -16,7 +16,7 @@ const router = createBrowserRouter([
       { path: "launches" },
       { path: "SumbitProduct" },
       { path: "UserProfile" },
-      { path: "LogIn" }
+      { path: "LogIn" },
       { path: "UnderConstruction" },
     ],
   },

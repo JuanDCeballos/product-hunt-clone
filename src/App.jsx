@@ -6,7 +6,6 @@ import { UserProfile } from './Users/Components/UserProfile.jsx';
 import { UserProvider } from './Users/Contexts/Providers/UserProvider.jsx'
 import { LogInComponent } from './Login/Components/LogInComponent.jsx';
 import { ProductProvider } from './Product/Contexts/Provider/ProductProvider.jsx'
-import { UserProfile } from './User/Components/UserProfile.jsx';
 import UnderContrusction from './ShareUI/Components/UnderConstruction.jsx'
 
 const App = () => {
