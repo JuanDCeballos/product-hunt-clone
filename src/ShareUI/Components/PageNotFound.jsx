@@ -1,5 +1,5 @@
-import { SiProbot } from "react-icons/si";
-import { Link } from "react-router-dom";
+import { SiProbot } from 'react-icons/si';
+import { Link } from 'react-router-dom';
 
 export const PageNotFound = () => {
   return (

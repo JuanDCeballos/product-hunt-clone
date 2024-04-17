@@ -1,20 +1,19 @@
-import { useContext } from "react";
-import { Link } from "react-router-dom";
-import { UserContext } from "../../Users/Contexts/Context/UserContext.jsx"
+import { useContext } from 'react';
+import { Link } from 'react-router-dom';
+import { UserContext } from '../../Users/Contexts/Context/UserContext.jsx';
 
 export const Header = () => {
-
-  const { User: Logged } = useContext(UserContext)
+  const { User: Logged } = useContext(UserContext);
   let ImageURL;
   let TargetPath;
 
   if (!Logged) {
-    ImageURL = "https://cdn-icons-png.flaticon.com/512/6326/6326055.png";
-    TargetPath = "LogIn"
-  }
-  else {
-    ImageURL = "https://www.kienyke.com/sites/default/files/styles/interna_contenido_s/public/2023-04/JH%20de%20la%20Cruz%20historia_0001_9.jpg?itok=VZnny0nN"
-    TargetPath = "UserProfile"
+    ImageURL = 'https://cdn-icons-png.flaticon.com/512/6326/6326055.png';
+    TargetPath = 'LogIn';
+  } else {
+    ImageURL =
+      'https://www.kienyke.com/sites/default/files/styles/interna_contenido_s/public/2023-04/JH%20de%20la%20Cruz%20historia_0001_9.jpg?itok=VZnny0nN';
+    TargetPath = 'UserProfile';
   }
 
   return (
@@ -77,17 +76,26 @@ export const Header = () => {
               </Link>
             </li>
             <li>
-              <Link to="UnderConstruction" className="text-white hover:text-gray-300">
+              <Link
+                to="UnderConstruction"
+                className="text-white hover:text-gray-300"
+              >
                 New
               </Link>
             </li>
             <li>
-              <Link to="UnderConstruction" className="text-white hover:text-gray-300">
+              <Link
+                to="UnderConstruction"
+                className="text-white hover:text-gray-300"
+              >
                 Community
               </Link>
             </li>
             <li>
-              <Link to="UnderConstruction" className="text-white hover:text-gray-300">
+              <Link
+                to="UnderConstruction"
+                className="text-white hover:text-gray-300"
+              >
                 Advertise
               </Link>
             </li>
@@ -113,10 +121,7 @@ export const Header = () => {
               />
             </svg>
             <Link to={TargetPath}>
-              <img
-                src={ImageURL}
-                className="w-10 h-10 rounded-full"
-              />
+              <img src={ImageURL} className="w-10 h-10 rounded-full" />
             </Link>
           </div>
         </nav>
@@ -124,4 +129,3 @@ export const Header = () => {
     </>
   );
 };
-

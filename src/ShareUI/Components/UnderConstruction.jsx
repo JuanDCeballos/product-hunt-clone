@@ -1,5 +1,5 @@
-import { Link } from "react-router-dom";
-import { FaHome } from "react-icons/fa";
+import { Link } from 'react-router-dom';
+import { FaHome } from 'react-icons/fa';
 
 const UnderConstruction = () => {
   return (
