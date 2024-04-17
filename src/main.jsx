@@ -16,6 +16,7 @@ const router = createBrowserRouter([
       { path: "launches" },
       { path: "SumbitProduct" },
       { path: "UserProfile" },
+      { path: "UnderConstruction" },
     ],
   },
 ]);
