@@ -1,4 +1,5 @@
 import { SiProbot } from "react-icons/si";
+import { Link } from "react-router-dom";
 
 export const PageNotFound = () => {
   return (
@@ -13,12 +14,12 @@ export const PageNotFound = () => {
         <p className="text-gray-600 mb-6 animate-pulse">
           Lo sentimos, el enlace que buscas no existe.
         </p>
-        <a
-          href="/"
+        <Link
+          to="/"
           className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out animate-bounce"
         >
           Volver al inicio
-        </a>
+        </Link>
       </div>
     </div>
   );
