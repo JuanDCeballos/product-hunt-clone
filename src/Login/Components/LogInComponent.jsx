@@ -1,13 +1,14 @@
 import { useContext } from "react"
 import { UserContext } from "../../Users/Contexts/Context/UserContext.jsx"
 import { Link } from "react-router-dom";
+import { UserExampleData } from "../../Users/Helpers/ExampleData.js";
 
 export const LogInComponent = () => {
 
     const { SetUser } = useContext(UserContext)
 
     const LogInUser = () => {
-        SetUser({ "name": "JH de la cruz", "Logged": "True" });
+        SetUser(UserExampleData);
     }
 
     return (
