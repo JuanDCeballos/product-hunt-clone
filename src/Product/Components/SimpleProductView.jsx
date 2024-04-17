@@ -1,6 +1,7 @@
 import { CiChat2, CiSquareChevUp } from "react-icons/ci";
 import Modal from './Modal.jsx'
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { ProductContext } from "../Contexts/Context/ProductContext.jsx";
 
 export const SimpleProductView = ({ productInfo }) => {
 
@@ -8,9 +9,12 @@ export const SimpleProductView = ({ productInfo }) => {
         ComentsCount, productPlatform, softwareProductType,
         productCategory, RatingCount } = productInfo;
 
+    const { SetProduct } = useContext(ProductContext);
     const [isOpen, setIsOpen] = useState(false);
 
     const openModal = () => {
+        console.log(productInfo);
+        SetProduct(productInfo);
         setIsOpen((prevState) => !prevState);
     };
 

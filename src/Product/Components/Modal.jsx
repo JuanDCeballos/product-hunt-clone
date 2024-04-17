@@ -6,24 +6,37 @@ import { BiSolidUpArrow } from 'react-icons/bi';
 import { CiChat2, CiBookmark } from 'react-icons/ci';
 import { IoShareOutline } from 'react-icons/io5';
 import { PiChartBarThin } from 'react-icons/pi';
+import { IoMdClose } from "react-icons/io";
 import Review from './Review';
+import { useContext } from 'react';
+import { ProductContext } from '../Contexts/Context/ProductContext';
 
 Modal.setAppElement(document.getElementById('root'));
 
 const ProductView = ({ isOpen, closeModal }) => {
+
+  const { product } = useContext(ProductContext);
+
+  const { picture, productName, productShortDescription,
+    RatingCount, longDescription, MediaLink
+  } = product;
+
   return (
     <>
       <Modal isOpen={isOpen} onRequestClose={closeModal} width={600}>
         <div className='font-mono'>
           <div className='flex flex-col sm:flex-col'>
-            <img
-              src='https://ph-files.imgix.net/fb840955-b221-4af8-bb41-cc040a28fcf0.png?auto=compress&codec=mozjpeg&cs=strip&auto=format&w=48&h=48&fit=crop&dpr=1'
-              className='size-16'
-            />
+            <div className="flex justify-between">
+              <img
+                src={picture}
+                className='size-16'
+              />
+              <button onClick={closeModal} className="text-5xl font-black hover:text-orange-400"><IoMdClose /></button>
+            </div>
             <div className='sm:flex sm:flex-row sm:gap-4'>
               <div>
-                <h1 className='font-black text-2xl'>Notion Calendar</h1>
-                <h2>Beautifully designed for your work and life</h2>
+                <h1 className='font-black text-2xl'>{productName}</h1>
+                <h2>{productShortDescription}</h2>
               </div>
               <div className='sm:flex sm:flex-row sm:gap-4'>
                 <div className='flex my-3'>
@@ -31,7 +44,7 @@ const ProductView = ({ isOpen, closeModal }) => {
                     Visit
                   </button>
                   <button className='bg-red-500 rounded-md flex items-center text-center justify-center text-white p-1.5 hover:bg-red-600 lg:w-52'>
-                    <BiSolidUpArrow /> UPVOTE 80
+                    <BiSolidUpArrow /> UPVOTE {RatingCount}
                   </button>
                 </div>
               </div>
@@ -42,10 +55,7 @@ const ProductView = ({ isOpen, closeModal }) => {
               </div>
               <div>
                 <p>
-                  Meet Notion Calendar — integrated and synced with all your
-                  Google Calendar events. (1) Simplify time management. (2)
-                  Fully integrated with your Notion workspace. (3) All your
-                  commitments in one place.
+                  {longDescription}
                 </p>
               </div>
               <div className='flex flex-wrap gap-1'>
@@ -102,7 +112,7 @@ const ProductView = ({ isOpen, closeModal }) => {
                 </div>
               </Carousel>
               <div className='flex flex-col max-w-7xl bg-slate-200 border-2 border-slate-300 rounded-md items-center p-3 mb-4 md:justify-between md:flex-row'>
-                <h2 className='font-semibold'>What do you think of Notion?</h2>
+                <h2 className='font-semibold'>What do you think of {productName}?</h2>
                 <ReactStars
                   count={5}
                   size={34}
