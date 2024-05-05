@@ -7,6 +7,7 @@ export const UserExampleData = {
   Streak: 19,
   Followers: 10,
   Following: 99,
+  Reviews: 43,
   Profile: 'Soy un misionero de Dios que ayuda a todo el mundo.',
   Work: 'Taxi Driver',
   Email: 'JH@productHunt.com',

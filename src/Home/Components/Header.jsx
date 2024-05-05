@@ -117,7 +117,7 @@ export const Header = () => {
             ) : (
               <>
                 <Link to="SumbitProduct">
-                  <button className="text-white transition ease-in-out delay-150 bg-orange-500 hover:-translate-y-1 hover:scale-110  duration-300 w-32 h-8 rounded-lg">
+                  <button className="text-white transition ease-in-out delay-150 bg-red-500 hover:-translate-y-1 hover:scale-110  duration-300 w-32 h-8 rounded-lg">
                     Submit
                   </button>
                 </Link>
