@@ -12,6 +12,7 @@ dist
 dist-ssr
 *.local
 
+firebaseAuth.js
 .env
 
 # Editor directories and files
