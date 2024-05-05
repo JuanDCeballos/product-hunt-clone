@@ -1,5 +1,6 @@
 import { useContext } from 'react';
 import { UserContext } from '../Contexts/Context/UserContext.jsx';
+import { MdOutlineMedicalInformation } from 'react-icons/md';
 
 export const UserProfile = () => {
   const { User } = useContext(UserContext);
@@ -11,6 +12,7 @@ export const UserProfile = () => {
     Streak,
     Followers,
     Following,
+    Reviews,
     Profile,
     Work,
     Email,
@@ -23,81 +25,83 @@ export const UserProfile = () => {
   return (
     <>
       <div className="flex justify-center items-center bg-gray-100 py-10">
-        <div className="bg-white rounded-lg shadow-md w-full max-w-md p-10">
-          <div className="flex items-center space-x-4 ">
-            <img
-              className="w-28 h-28 rounded-full"
-              src={Picture}
-              alt="User's profile picture"
-            />
+        <div className="bg-white rounded-lg shadow-md w-full max-w-3xl p-10">
+          <div className="flex space-x-6">
             <div>
-              <h2 className="text-lg font-bold">{UserName}</h2>
-              <p className="text-gray-500 text-sm">{UserID}</p>
+              <img
+                className="w-32 h-32 rounded-full border-4 border-gray-800"
+                src={Picture}
+                alt="User's profile picture"
+              />
+            </div>
+            <div>
+              <h1 className="text-2xl font-semibold text-gray-800">
+                {UserName}
+              </h1>
+              <p className="text-gray-500">@{UserID}</p>
+              <p className="mt-2">{Profile}</p>
+              <div className="mt-4 flex">
+                <div className="mr-6 text-center">
+                  <p className="bg-blue-500 text-white px-2 py-1 rounded-full text-xs">
+                    Reviews
+                  </p>
+                  <p className="font-semibold">{Reviews}</p>
+                </div>
+                <div className="mr-6 text-center">
+                  <p className="bg-red-500 text-white px-2 py-1 rounded-full text-xs">
+                    Followers
+                  </p>
+                  <p className="font-semibold">{Followers}</p>
+                </div>
+                <div className="text-center">
+                  <p className="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs">
+                    Following
+                  </p>
+                  <p className="font-semibold">{Following}</p>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="mt-4 flex items-center space-x-2">
-            <span className="bg-red-500 text-white px-2 py-1 rounded-full text-xs">
-              {CommunityMember}
-            </span>
-            <span className="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs">
-              {Streak} day streak
-            </span>
-          </div>
-          <div className="mt-4 flex space-x-4">
-            <div className="flex items-center space-x-1">
-              <span className="text-gray-500">{Followers} followers</span>
-            </div>
-            <div className="flex items-center space-x-1">
-              <span className="text-gray-500">{Following} following</span>
-            </div>
-          </div>
-          <div className="grid grid-cols-2 gap-2">
-            <div className="mt-4">
-              <h3 className="text-lg font-bold bg-gray-800 text-white px-2 py-1 rounded-full text-xs">
-                ABOUT
-              </h3>
-              <p className="mt-4">{Profile}</p>
-            </div>
-            <div className="mt-4">
-              <h3 className="text-lg font-bold bg-gray-800 text-white px-2 py-1 rounded-full text-xs">
-                WORK
-              </h3>
-              <p className="mt-4">{Work}</p>
-            </div>
-            <div className="mt-4">
-              <h3 className="text-lg font-bold bg-gray-800 text-white px-2 py-1 rounded-full text-xs">
-                EMAIL
-              </h3>
-              <p className="mt-4">{Email}</p>
-            </div>
-            <div className="mt-4">
-              <h3 className="text-lg font-bold bg-gray-800 text-white px-2 py-1 rounded-full text-xs">
-                PASSWORD
-              </h3>
-              <p className="mt-4">**********</p>
-            </div>
-            <div className="mt-4">
-              <h3 className="text-lg font-bold bg-gray-800 text-white px-2 py-1 rounded-full text-xs">
-                CREATED AT
-              </h3>
-              <p className="mt-4">{CreatedDateTime}</p>
-            </div>
-            <div className="mt-4">
-              <h3 className="text-lg font-bold bg-gray-800 text-white px-2 py-1 rounded-full text-xs">
-                UPDATED AT
-              </h3>
-              <p className="mt-4">{ModifiedDateTime}</p>
+          <hr className="my-6 border-b-2 border-gray-700" />
+          <div className="mt-6">
+            <h2 className="text-lg font-semibold text-gray-800">
+              Additional Information
+            </h2>
+            <div className="mt-4 grid grid-cols-2 gap-6">
+              <div>
+                <p className="text-gray-500 font-semibold">Community Member</p>
+                <p className="font-semibold">{CommunityMember}</p>
+              </div>
+              <div>
+                <p className="text-gray-500 font-semibold">Streak</p>
+                <p className="font-semibold">{Streak} day streak</p>
+              </div>
+              <div>
+                <p className="text-gray-500 font-semibold">Work</p>
+                <p className="font-semibold">{Work}</p>
+              </div>
+              <div>
+                <p className="text-gray-500 font-semibold">Email</p>
+                <p className="font-semibold">{Email}</p>
+              </div>
+              <div>
+                <p className="text-gray-500 font-semibold">Created At</p>
+                <p className="font-semibold">{CreatedDateTime}</p>
+              </div>
+              <div>
+                <p className="text-gray-500 font-semibold">Updated At</p>
+                <p className="font-semibold">{ModifiedDateTime}</p>
+              </div>
             </div>
           </div>
-          <div className="mt-4 text-center">
-            <h3 className="text-lg font-bold bg-gray-800 text-white px-2 py-1 rounded-full text-xs flex justify-center">
-              BIO
-            </h3>
-            <p className="mt-4"> {BIO} </p>
+          <hr className="my-6 border-b-2 border-gray-700" />
+          <div className="mt-6">
+            <h2 className="text-lg font-semibold text-gray-800">Bio</h2>
+            <p className="mt-2">{BIO}</p>
           </div>
           <div className="mt-8 flex justify-start">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-              Edit my profile
+            <button className="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
+              Edit Profile
             </button>
           </div>
         </div>
