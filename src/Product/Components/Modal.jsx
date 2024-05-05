@@ -8,13 +8,29 @@ import { IoShareOutline } from 'react-icons/io5';
 import { PiChartBarThin } from 'react-icons/pi';
 import { IoMdClose } from 'react-icons/io';
 import Review from './Review';
-import { useContext } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { ProductContext } from '../Contexts/Context/ProductContext';
 import { UserContext } from '../../Users/Contexts/Context/UserContext';
+import { useEffect } from 'react';
 
 Modal.setAppElement(document.getElementById('root'));
 
 const ProductView = ({ isOpen, closeModal }) => {
+  const textAreaRef = useRef();
+  const [val, setVal] = useState('');
+
+  const onInputChange = (e) => {
+    setVal(e.target.value);
+  };
+
+  useEffect(() => {
+    if (textAreaRef.current) {
+      textAreaRef.current.style.height = 'auto';
+      textAreaRef.current.style.height =
+        textAreaRef.current.scrollHeight + 'px';
+    }
+  }, [val]);
+
   const { product } = useContext(ProductContext);
   const { User: Logged } = useContext(UserContext);
 
@@ -117,30 +133,35 @@ const ProductView = ({ isOpen, closeModal }) => {
                   />
                 </div>
               </Carousel>
-              <div className="flex flex-col max-w-7xl bg-slate-200 border-2 border-slate-300 rounded-md items-center p-3 mb-4">
-                <div className="flex w-1/2 md:justify-between md:flex-row items-center justify-between p-3 mb-4">
-                  <h2 className="font-semibold">
+              <div className="flex flex-col w-3/5 border-t border-b border-gray-400 items-center p-3 mb-4">
+                <div className="flex w-full md:flex-row items-center p-3 mb-4">
+                  <h2 className="font-semibold p-3">
                     What do you think of {productName}?
                   </h2>
                   <ReactStars
                     count={5}
                     size={34}
                     activeColor="#ffd700"
+                    isHalf={true}
                   ></ReactStars>
                 </div>
-                <div className="flex justify-between w-1/2">
+                <div className="flex justify-between w-full">
                   <img
                     src="https://www.kienyke.com/sites/default/files/styles/interna_contenido_s/public/2023-04/JH%20de%20la%20Cruz%20historia_0001_9.jpg?itok=VZnny0nN"
                     className="w-10 h-10 rounded-full m-4"
                   />
                   <textarea
-                    className="focus:outline-none flex-1 rounded-lg p-3 h-44"
+                    className="focus:outline-none flex-1 rounded-lg p-3 resize-none"
                     type="text"
-                    placeholder="What do you think?"
+                    placeholder="What's on your mind?"
+                    value={val}
+                    onChange={onInputChange}
+                    rows="2"
+                    ref={textAreaRef}
                   ></textarea>
                 </div>
-                <div className="flex w-1/2 justify-end items-end m-2.5">
-                  <button className="bg-red-500 rounded-md flex items-center text-center justify-center text-white p-1.5 hover:bg-red-600">
+                <div className="flex w-full justify-end items-end m-2.5">
+                  <button className="w-36 bg-red-500 rounded-md flex items-center text-center justify-center text-white p-1.5 hover:bg-red-600">
                     Comment
                   </button>
                 </div>
