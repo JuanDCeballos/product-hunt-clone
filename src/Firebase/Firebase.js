@@ -9,7 +9,6 @@ import {
   getDocs,
   addDoc,
   setDoc,
-  updateDoc,
 } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -61,9 +60,11 @@ export async function addCommentInProduct(productUid, comment) {
     const document = await getDoc(documentReference);
     if (!document.exists()) throw "Document doesn't exist.";
 
+    const commentReference = doc(
+      collection(db, `Productos/${productUid}/Comments`)
+    );
     console.log(document.data());
-
-    await updateDoc(documentReference, { Coments: comment });
+    await setDoc(commentReference, comment);
 
     return { Ok: true, Message: 'Product updated successfully' };
   } catch (error) {
