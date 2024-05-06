@@ -47,6 +47,7 @@ export async function addCommentInProduct(productUid, comment) {
     const commentReference = doc(
       collection(db, `Productos/${productUid}/Comments`)
     );
+
     console.log(document.data());
     await setDoc(commentReference, comment);
 
