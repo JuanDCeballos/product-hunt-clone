@@ -31,6 +31,7 @@ export async function SingInWithOutProvider(email, password) {
 export async function SingInWithGoogle() {
   try {
     const result = await signInWithPopup(Auth, GoogleProvider);
+
     const user = result.user;
     return { ok: true, user };
   } catch (error) {
