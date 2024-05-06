@@ -1,8 +1,15 @@
 import { SimpleProductView } from './SimpleProductView.jsx';
-import { ProductTestInfos } from '../Helpers/exampleData.js';
+import { getProducts } from '../../Firebase';
+import { useEffect, useState } from 'react';
 
 export const ProductListComponent = ({ Title }) => {
-  const ProductTestInfo = ProductTestInfos;
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    getProducts().then((products) => {
+      setProducts(products);
+    });
+  }, []);
 
   return (
     <>
@@ -19,11 +26,8 @@ export const ProductListComponent = ({ Title }) => {
         </div>
 
         <div className="flex flex-col space-y-8">
-          {ProductTestInfo.map((Product) => (
-            <SimpleProductView
-              key={Product.productName}
-              productInfo={Product}
-            />
+          {products.map((Product) => (
+            <SimpleProductView key={Product.id} productInfo={Product} />
           ))}
         </div>
       </div>

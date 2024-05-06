@@ -10,8 +10,8 @@ import { IoMdClose } from 'react-icons/io';
 import Review from './Review';
 import { useContext, useRef, useState } from 'react';
 import { ProductContext } from '../Contexts/Context/ProductContext';
-import { UserContext } from '../../Users/Contexts/Context/UserContext';
 import { useEffect } from 'react';
+import { LogInContext } from '../../Login/Context/LogInContext';
 
 Modal.setAppElement(document.getElementById('root'));
 
@@ -32,7 +32,7 @@ const ProductView = ({ isOpen, closeModal }) => {
   }, [val]);
 
   const { product } = useContext(ProductContext);
-  const { User: Logged } = useContext(UserContext);
+  const { User } = useContext(LogInContext);
 
   const {
     picture,

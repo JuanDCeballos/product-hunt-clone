@@ -1,14 +1,29 @@
 import { useContext } from 'react';
-import { UserContext } from '../../Users/Contexts/Context/UserContext.jsx';
-import { Link } from 'react-router-dom';
-import { UserExampleData } from '../../Users/Helpers/ExampleData.js';
+import { useNavigate } from 'react-router-dom';
 import { FaGithub } from 'react-icons/fa';
 import { FaGoogle } from 'react-icons/fa';
+import { LogInContext } from '../Context/LogInContext.jsx';
 
 export const LogInComponent = () => {
-  const { SetUser } = useContext(UserContext);
-  const LogInUser = () => {
-    SetUser(UserExampleData);
+  const { LogInWithGoogle, LogInWithGitHub } = useContext(LogInContext);
+  const navigate = useNavigate();
+
+  const onLogInWithGoogle = async (event) => {
+    event.preventDefault();
+    const isValidLogIn = await LogInWithGoogle();
+
+    if (isValidLogIn) {
+      navigate('/', { replace: true });
+    }
+  };
+
+  const onLogInWithGitHub = async (event) => {
+    event.preventDefault();
+    const isValidLogIn = await LogInWithGitHub();
+
+    if (isValidLogIn) {
+      navigate('/', { replace: true });
+    }
   };
 
   return (
@@ -32,7 +47,7 @@ export const LogInComponent = () => {
           <div className="space-y-4">
             <button
               className="flex items-center justify-center bg-white text-gray-700 border border-gray-300 rounded-md py-3 px-4 w-full hover:bg-gray-100"
-              onClick={LogInUser}
+              onClick={onLogInWithGoogle}
             >
               <div className="mr-4">
                 <FaGoogle className="text-black size-9 text-2xl" />
@@ -41,7 +56,7 @@ export const LogInComponent = () => {
             </button>
             <button
               className="flex items-center justify-center bg-gray-800 text-white rounded-md py-3 px-4 w-full hover:bg-gray-700"
-              onClick={LogInUser}
+              onClick={onLogInWithGitHub}
             >
               <div className="mr-4">
                 <FaGithub className="text-white size-9 text-2xl" />

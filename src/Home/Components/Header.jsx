@@ -1,18 +1,17 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { UserContext } from '../../Users/Contexts/Context/UserContext.jsx';
+import { LogInContext } from '../../Login/Context/LogInContext.jsx';
 
 export const Header = () => {
-  const { User: Logged } = useContext(UserContext);
+  const { user, logged } = useContext(LogInContext);
   let ImageURL;
   let TargetPath;
 
-  if (!Logged) {
+  if (!logged) {
     ImageURL = 'https://cdn-icons-png.flaticon.com/512/6326/6326055.png';
     TargetPath = 'LogIn';
   } else {
-    ImageURL =
-      'https://www.kienyke.com/sites/default/files/styles/interna_contenido_s/public/2023-04/JH%20de%20la%20Cruz%20historia_0001_9.jpg?itok=VZnny0nN';
+    ImageURL = user.photoURL;
     TargetPath = 'UserProfile';
   }
 
@@ -101,7 +100,7 @@ export const Header = () => {
             </li>
           </ul>
           <div className="flex items-center space-x-4">
-            {!Logged ? (
+            {!logged ? (
               <>
                 <Link to="UnderConstruction">
                   <p className="text-white transition ease-in-out delay-150 hover:text-gray-300 w-32 h-8 rounded-lg">
