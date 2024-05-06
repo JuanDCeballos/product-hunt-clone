@@ -1,6 +1,14 @@
 import { initializeApp } from 'firebase/app';
-import * as dotenv from 'dotenv';
-dotenv.config();
+import {
+  apiKey,
+  authDomain,
+  projectId,
+  storageBucket,
+  messagingSenderId,
+  appId,
+  measurementId,
+} from './Helpers';
+
 import {
   getFirestore,
   collection,
@@ -11,20 +19,23 @@ import {
   setDoc,
 } from 'firebase/firestore';
 
+import { getAuth } from 'firebase/auth';
+
 const firebaseConfig = {
-  apiKey: process.env.apiKey,
-  authDomain: process.env.authDomain,
-  projectId: process.env.projectId,
-  storageBucket: process.env.storageBucket,
-  messagingSenderId: process.env.messagingSenderId,
-  appId: process.env.appId,
-  measurementId: process.env.measurementId,
+  apiKey: apiKey,
+  authDomain: authDomain,
+  projectId: projectId,
+  storageBucket: storageBucket,
+  messagingSenderId: messagingSenderId,
+  appId: appId,
+  measurementId: measurementId,
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+export const app = initializeApp(firebaseConfig);
+export const db = getFirestore(app);
+export const Auth = getAuth(app);
 
-export async function getProducts() {
+export const getProducts = async () => {
   try {
     let JSONtoReturn = [];
     const resultQuery = await getDocs(collection(db, 'Productos'));
@@ -35,7 +46,7 @@ export async function getProducts() {
   } catch (error) {
     return error;
   }
-}
+};
 
 export async function addProduct(product) {
   try {
