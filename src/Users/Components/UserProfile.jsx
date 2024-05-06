@@ -1,5 +1,4 @@
-import { useContext } from 'react';
-import { MdOutlineMedicalInformation } from 'react-icons/md';
+import { useState, useContext } from 'react';
 import { LogInContext } from '../../Login/Context';
 
 export const UserProfile = () => {
@@ -21,7 +20,13 @@ export const UserProfile = () => {
     BIO,
   } = user;
 
-  console.log(user);
+  const [isEditing, setIsEditing] = useState(false);
+
+  const handleEditClick = () => {
+    setIsEditing(!isEditing);
+  };
+
+  const inputBorderColor = isEditing ? 'border-blue-500' : 'border-gray-300';
 
   return (
     <>
@@ -40,7 +45,12 @@ export const UserProfile = () => {
                 {displayName}
               </h1>
               <p className="text-gray-500">@{UserID}</p>
-              <p className="mt-2">{Profile}</p>
+              <input
+                type="text"
+                className=""
+                value={Profile}
+                disabled={!isEditing}
+              />
               <div className="mt-4 flex">
                 <div className="mr-6 text-center">
                   <p className="bg-blue-500 text-white px-2 py-1 rounded-full text-xs">
@@ -71,38 +81,93 @@ export const UserProfile = () => {
             <div className="mt-4 grid grid-cols-2 gap-6">
               <div>
                 <p className="text-gray-500 font-semibold">Community Member</p>
-                <p className="font-semibold">{CommunityMember}</p>
+                <input
+                  type="text"
+                  className={`border rounded-md p-2 w-full ${inputBorderColor}`}
+                  value={CommunityMember}
+                  disabled={!isEditing}
+                />
               </div>
               <div>
                 <p className="text-gray-500 font-semibold">Streak</p>
-                <p className="font-semibold">{Streak} day streak</p>
+                <input
+                  type="text"
+                  className={`border rounded-md p-2 w-full ${inputBorderColor}`}
+                  value={`${Streak} day streak`}
+                  disabled={!isEditing}
+                />
               </div>
               <div>
                 <p className="text-gray-500 font-semibold">Work</p>
-                <p className="font-semibold">{Work}</p>
+                <input
+                  type="text"
+                  className={`border rounded-md p-2 w-full ${inputBorderColor}`}
+                  value={Work}
+                  disabled={!isEditing}
+                />
               </div>
               <div>
                 <p className="text-gray-500 font-semibold">Email</p>
-                <p className="font-semibold">{Email}</p>
+                <input
+                  type="text"
+                  className={`border rounded-md p-2 w-full ${inputBorderColor}`}
+                  value={Email}
+                  disabled={!isEditing}
+                />
               </div>
               <div>
                 <p className="text-gray-500 font-semibold">Created At</p>
-                <p className="font-semibold">{CreatedDateTime}</p>
+                <input
+                  type="text"
+                  className={`border rounded-md p-2 w-full ${inputBorderColor}`}
+                  value={CreatedDateTime}
+                  disabled={!isEditing}
+                />
               </div>
               <div>
                 <p className="text-gray-500 font-semibold">Updated At</p>
-                <p className="font-semibold">{ModifiedDateTime}</p>
+                <input
+                  type="text"
+                  className={`border rounded-md p-2 w-full ${inputBorderColor}`}
+                  value={ModifiedDateTime}
+                  disabled={!isEditing}
+                />
               </div>
             </div>
           </div>
           <hr className="my-6 border-b-2 border-gray-700" />
           <div className="mt-6">
             <h2 className="text-lg font-semibold text-gray-800">Bio</h2>
-            <p className="mt-2">{BIO}</p>
+            {isEditing ? (
+              <input
+                type="text"
+                value={BIO}
+                onChange={(e) => console.log(e.target.value)}
+                className="mt-2 border rounded-md p-2 w-full"
+              />
+            ) : (
+              <p className="mt-2">{BIO}</p>
+            )}
           </div>
+
           <div className="mt-8 flex justify-start">
-            <button className="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded">
-              Edit Profile
+            {isEditing ? (
+              <button className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mr-4">
+                Save Changes
+              </button>
+            ) : (
+              <button
+                className="bg-gray-800 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mr-4"
+                onClick={handleEditClick}
+              >
+                Edit Profile
+              </button>
+            )}
+            <button
+              className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+              onClick={() => setIsEditing(false)}
+            >
+              Cancel
             </button>
           </div>
         </div>
