@@ -1,11 +1,11 @@
 import { useContext } from 'react';
-import { UserContext } from '../Users/Contexts/Context/UserContext';
 import { Navigate } from 'react-router-dom';
+import { LogInContext } from '../Login/Context/LogInContext';
 
 const PublicRouter = ({ children }) => {
-  const { User: Logged } = useContext(UserContext);
+  const { user } = useContext(LogInContext);
 
-  return !Logged ? children : <Navigate to="/UserProfile" />;
+  return !user ? children : <Navigate to="/UserProfile" />;
 };
 
 export default PublicRouter;

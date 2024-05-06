@@ -1,13 +1,13 @@
 import { useContext } from 'react';
-import { UserContext } from '../Contexts/Context/UserContext.jsx';
 import { MdOutlineMedicalInformation } from 'react-icons/md';
+import { LogInContext } from '../../Login/Context';
 
 export const UserProfile = () => {
-  const { User } = useContext(UserContext);
+  const { user } = useContext(LogInContext);
   const {
-    UserName,
+    displayName,
     UserID,
-    Picture,
+    photoURL,
     CommunityMember,
     Streak,
     Followers,
@@ -16,11 +16,12 @@ export const UserProfile = () => {
     Profile,
     Work,
     Email,
-    PassWord,
     CreatedDateTime,
     ModifiedDateTime,
     BIO,
-  } = User;
+  } = user;
+
+  console.log(user);
 
   return (
     <>
@@ -30,13 +31,13 @@ export const UserProfile = () => {
             <div>
               <img
                 className="w-32 h-32 rounded-full border-4 border-gray-800"
-                src={Picture}
-                alt="User's profile picture"
+                src={photoURL}
+                alt="User's profile photoURL"
               />
             </div>
             <div>
               <h1 className="text-2xl font-semibold text-gray-800">
-                {UserName}
+                {displayName}
               </h1>
               <p className="text-gray-500">@{UserID}</p>
               <p className="mt-2">{Profile}</p>
