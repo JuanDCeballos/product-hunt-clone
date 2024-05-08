@@ -1,4 +1,6 @@
 import { useForm } from 'react-hook-form';
+import { Toaster, toast } from 'sonner';
+import { addProduct } from '../../Firebase/Functions';
 
 export const ProductForm = () => {
   const {
@@ -8,15 +10,24 @@ export const ProductForm = () => {
     formState: { errors },
   } = useForm();
 
-  const printData = (data) => {
-    console.log(data);
+  const SaveData = async (data) => {
+    if (!data) {
+      toast.error('An error ocurred, try again!');
+      return;
+    }
+    toast.promise(addProduct(data), {
+      loading: 'Añadiendo producto...',
+      success: 'Product added successfully!',
+      error: 'An error ocurred while trying to save data.',
+    });
   };
 
   return (
     <>
+      <Toaster richColors />
       <div className="max-w-4xl mt-16 mx-auto">
         <form
-          onSubmit={handleSubmit(printData)}
+          onSubmit={handleSubmit(SaveData)}
           className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4 "
         >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
