@@ -19,7 +19,7 @@ import {
   setDoc,
 } from 'firebase/firestore';
 
-import { getAuth } from 'firebase/auth';
+import { getAuth, signOut } from 'firebase/auth';
 
 const firebaseConfig = {
   apiKey: apiKey,
@@ -34,6 +34,14 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore(app);
 export const Auth = getAuth(app);
+
+export const singOutCurrent = async () => {
+  try {
+    await signOut(Auth);
+  } catch (error) {
+    return error;
+  }
+};
 
 export const getProducts = async () => {
   try {
