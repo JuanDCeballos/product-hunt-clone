@@ -4,7 +4,10 @@ import {
   GoogleAuthProvider,
   GithubAuthProvider,
   signInWithPopup,
+  signOut,
 } from 'firebase/auth';
+import { ExistsUser, CreateNewUser } from './UsersFunctions';
+import { ProviderTypes } from '../Helpers';
 
 const GoogleProvider = new GoogleAuthProvider();
 const GitHubProvider = new GithubAuthProvider();
@@ -31,6 +34,24 @@ export async function SingInWithOutProvider(email, password) {
 export async function SingInWithGoogle() {
   try {
     const result = await signInWithPopup(Auth, GoogleProvider);
+
+    const userExistsResult = await ExistsUser(
+      result.user.uid,
+      ProviderTypes.GoogleProvider
+    );
+
+    if (userExistsResult.ok === false) throw userExistsResult.error;
+
+    if (!userExistsResult) {
+      const resultCreateUser = await CreateNewUser(
+        result.user.uid,
+        new Date().toLocaleDateString(),
+        ProviderTypes.GoogleProvider
+      );
+
+      if (!resultCreateUser.ok) throw resultCreateUser.message;
+    }
+
     const user = result.user;
     return { ok: true, user };
   } catch (error) {
@@ -42,9 +63,34 @@ export async function SingInWithGitHub() {
   try {
     const result = await signInWithPopup(Auth, GitHubProvider);
     const user = result.user;
-    console.log(user);
+
+    const userExistsResult = await ExistsUser(
+      result.user.uid,
+      ProviderTypes.GitHubProvider
+    );
+
+    if (userExistsResult.ok === false) throw userExistsResult.error;
+
+    if (!userExistsResult) {
+      const resultCreateUser = await CreateNewUser(
+        result.user.uid,
+        new Date().toLocaleDateString(),
+        ProviderTypes.GitHubProvider
+      );
+
+      if (!resultCreateUser.ok) throw resultCreateUser.message;
+    }
+
     return { ok: true, user };
   } catch (error) {
     return { ok: false, error };
   }
 }
+
+export const singOutCurrent = async () => {
+  try {
+    await signOut(Auth);
+  } catch (error) {
+    return error;
+  }
+};

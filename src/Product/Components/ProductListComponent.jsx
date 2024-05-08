@@ -1,5 +1,5 @@
 import { SimpleProductView } from './SimpleProductView.jsx';
-import { getProducts } from '../../Firebase';
+import { getProducts } from '../../Firebase/Functions';
 import { useEffect, useState } from 'react';
 
 export const ProductListComponent = ({ Title }) => {

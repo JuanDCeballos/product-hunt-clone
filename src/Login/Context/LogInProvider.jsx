@@ -7,7 +7,7 @@ import {
   SingInWithGitHub,
 } from '../../Firebase/Functions';
 import { AuthTypes } from './Types';
-import { singOutCurrent } from '../../Firebase';
+import { singOutCurrent } from '../../Firebase/Functions';
 
 const initialState = { logged: false };
 
