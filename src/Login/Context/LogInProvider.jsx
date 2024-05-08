@@ -7,6 +7,7 @@ import {
   SingInWithGitHub,
 } from '../../Firebase/Functions';
 import { AuthTypes } from './Types';
+import { singOutCurrent } from '../../Firebase/Functions';
 
 const initialState = { logged: false };
 
@@ -77,6 +78,12 @@ export const LogInProvider = ({ children }) => {
     return true;
   };
 
+  const logOut = () => {
+    localStorage.removeItem('user');
+    singOutCurrent();
+    dispatch({ type: AuthTypes.logOut });
+  };
+
   return (
     <LogInContext.Provider
       value={{
@@ -84,6 +91,7 @@ export const LogInProvider = ({ children }) => {
         LogInWithEmailAndPassWord,
         LogInWithGoogle,
         LogInWithGitHub,
+        logOut,
       }}
     >
       {children}

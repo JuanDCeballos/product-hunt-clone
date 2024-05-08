@@ -4,6 +4,7 @@ import {
   GoogleAuthProvider,
   GithubAuthProvider,
   signInWithPopup,
+  signOut,
 } from 'firebase/auth';
 import { ExistsUser, CreateNewUser } from './UsersFunctions';
 import { ProviderTypes } from '../Helpers';
@@ -85,3 +86,11 @@ export async function SingInWithGitHub() {
     return { ok: false, error };
   }
 }
+
+export const singOutCurrent = async () => {
+  try {
+    await signOut(Auth);
+  } catch (error) {
+    return error;
+  }
+};
