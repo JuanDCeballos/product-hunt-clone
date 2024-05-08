@@ -10,7 +10,6 @@ import {
 } from './Helpers';
 
 import { getFirestore } from 'firebase/firestore';
-
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {

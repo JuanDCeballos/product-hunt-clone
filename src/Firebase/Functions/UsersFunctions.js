@@ -1,5 +1,5 @@
 import { db } from '../Firebase';
-import { collection, doc, getDoc, addDoc, setDoc } from 'firebase/firestore';
+import { collection, doc, getDoc, setDoc } from 'firebase/firestore';
 
 export async function UpdateUser(userIUD, userModified) {
   try {
@@ -14,25 +14,28 @@ export async function UpdateUser(userIUD, userModified) {
   }
 }
 
-export async function CreateNewUser(userIUD, timeStamp) {
+export async function CreateNewUser(userIUD, timeStamp, provider) {
   try {
     if (!userIUD) throw "User UID can't be null.";
+    if (!provider) throw "Provider can't be null.";
     const defaultData = {
       createdAt: timeStamp,
       updatedAt: timeStamp,
+      provider: provider,
     };
-    await addDoc(collection(db, 'Usuarios', userIUD), defaultData);
+    await setDoc(doc(db, `Usuarios ${provider}`, userIUD), defaultData);
     return { ok: true, message: 'User created successfully!' };
   } catch (error) {
     return { ok: false, error };
   }
 }
 
-export async function ExistsUser(userIUD) {
+export async function ExistsUser(userIUD, provider) {
   try {
-    if (userIUD) throw "User UID can't be null.";
+    if (!userIUD) throw "User UID can't be null.";
+    if (!provider) throw "Provider can't be null.";
 
-    const userReference = doc(db, 'Usuarios', userIUD);
+    const userReference = doc(db, `Usuarios ${provider}`, userIUD);
     const documentResult = await getDoc(userReference);
 
     return documentResult.exists();
