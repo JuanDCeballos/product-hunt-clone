@@ -7,15 +7,16 @@ import {
   setDoc,
   where,
   query,
-  query,
 } from 'firebase/firestore';
 import { db } from '../Firebase';
 
 export const getProducts = async () => {
   try {
     let JSONtoReturn = [];
-    const resultQuery = await getDocs(collection(db, 'Productos'));
-    resultQuery.forEach((doc) => {
+    const productsRef = collection(db, 'Productos');
+    const querySnapshot = query(productsRef, where('enabled', '==', true));
+    const productsResult = await getDocs(querySnapshot);
+    productsResult.forEach((doc) => {
       JSONtoReturn.push({ id: doc.id, ...doc.data() });
     });
     return JSONtoReturn;
@@ -24,14 +25,44 @@ export const getProducts = async () => {
   }
 };
 
+export async function setProductInDisabled(productUID) {
+  try {
+    if (!productUID) throw "ProductUID can't be null.";
+
+    const documentReference = doc(db, 'Productos', productUID);
+    const document = await getDoc(documentReference);
+    if (!document.exists()) throw "Document doesn't exist.";
+
+    await setDoc(documentReference, { enabled: false }, { merge: true });
+    return { Ok: true, Message: 'Product updated successfully' };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
+
+export async function setProductInEnabled(productUID) {
+  try {
+    if (!productUID) throw "ProductUID can't be null.";
+
+    const documentReference = doc(db, 'Productos', productUID);
+    const document = await getDoc(documentReference);
+    if (!document.exists()) throw "Document doesn't exist.";
+
+    await setDoc(documentReference, { enabled: true }, { merge: true });
+    return { Ok: true, Message: 'Product updated successfully' };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
+
 export async function getProductsCreatedByUserUID(userUID) {
   try {
     if (!userUID) throw "UserUID can't be null.";
     const productsRef = collection(db, 'Productos');
-    const query = query(productsRef, where('createdBy', '==', userUID));
-    const productsResult = await getDocs(query);
+    const querySnapshot = query(productsRef, where('createdBy', '==', userUID));
+    const productsResult = await getDocs(querySnapshot);
     let JSONToReturn = [];
-    resultQuery.forEach((doc) => {
+    productsResult.forEach((doc) => {
       JSONToReturn.push({ id: doc.id, ...doc.data() });
     });
 
@@ -68,12 +99,10 @@ export async function addCommentInProduct(productUid, comment) {
       collection(db, `Productos/${productUid}/Comments`)
     );
 
-    console.log(document.data());
     await setDoc(commentReference, comment);
 
     return { Ok: true, Message: 'Product updated successfully' };
   } catch (error) {
-    console.log(error);
     return { Ok: false, error };
   }
 }
