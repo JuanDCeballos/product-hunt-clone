@@ -90,6 +90,7 @@ export const UserProfile = () => {
                 </h1>
                 <p className="text-gray-500">@{user.displayName}</p>
                 <input
+                  {...register('profileDesc', { required: true })}
                   type="text"
                   className={`border rounded-md p-2 mt-2 w-full ${inputBorderColor}`}
                   value={!isEditing ? user.profileDesc : undefined}
@@ -129,6 +130,7 @@ export const UserProfile = () => {
                     Community Member
                   </p>
                   <input
+                    {...register('communityMember', { required: true })}
                     placeholder="Community here..."
                     type="text"
                     className={`border rounded-md p-2 w-full ${inputBorderColor}`}
@@ -148,6 +150,7 @@ export const UserProfile = () => {
                 <div>
                   <p className="text-gray-500 font-semibold">Work</p>
                   <input
+                    {...register('work', { required: true })}
                     placeholder="Work here..."
                     type="text"
                     className={`border rounded-md p-2 w-full ${inputBorderColor}`}
@@ -158,6 +161,7 @@ export const UserProfile = () => {
                 <div>
                   <p className="text-gray-500 font-semibold">Email</p>
                   <input
+                    {...register('email', { required: true })}
                     placeholder="Email here..."
                     type="text"
                     className={`border rounded-md p-2 w-full ${inputBorderColor}`}

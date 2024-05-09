@@ -23,7 +23,7 @@ export const ProductForm = () => {
       return;
     }
 
-    const newProduct = { ...data, createdBy: user.uid };
+    const newProduct = { ...data, createdBy: user.uid, enabled: true };
 
     toast.promise(addProduct(newProduct), {
       loading: 'Añadiendo producto...',
