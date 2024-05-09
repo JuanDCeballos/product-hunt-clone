@@ -1,14 +1,27 @@
 import { db } from '../Firebase';
-import { collection, doc, getDoc, setDoc } from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 
-export async function UpdateUser(userIUD, userModified) {
+export async function UpdateUser(userIUD, userModified, provider) {
   try {
     if (!userIUD) throw "User UID can't be null.";
     if (!userModified) throw "Modified data can't be null.";
 
-    const userReference = doc(collection(db, 'Usuarios', userIUD));
+    const userReference = doc(db, `Usuarios ${provider}`, userIUD);
     await setDoc(userReference, userModified, { merge: true });
     return { ok: true, message: 'user modified successfully!' };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
+
+export async function GetUser(userUID, provider) {
+  try {
+    if (!userUID) throw "UserUID can't be null.";
+    if (!provider) throw "Provider can't be null.";
+    const userReference = doc(db, `Usuarios ${provider}`, userUID);
+    const documentResult = await getDoc(userReference);
+
+    return { ok: true, user: documentResult.data() };
   } catch (error) {
     return { ok: false, error };
   }

@@ -7,7 +7,9 @@ import {
   SingInWithGitHub,
 } from '../../Firebase/Functions';
 import { AuthTypes } from './Types';
-import { singOutCurrent } from '../../Firebase/Functions';
+import { singOutCurrent, GetUser } from '../../Firebase/Functions';
+import { ProviderTypes } from '../../Firebase/Helpers';
+import { IoPlayForwardCircleSharp } from 'react-icons/io5';
 
 const initialState = { logged: false };
 
@@ -50,7 +52,8 @@ export const LogInProvider = ({ children }) => {
     }
 
     const { uid, displayName, photoURL } = user;
-    const payload = { uid, displayName, photoURL };
+    const provider = ProviderTypes.GoogleProvider;
+    const payload = { uid, displayName, photoURL, provider };
     const action = { type: AuthTypes.logInWithGoogle, payload };
 
     localStorage.setItem('user', JSON.stringify(payload));
@@ -66,16 +69,38 @@ export const LogInProvider = ({ children }) => {
       return;
     }
 
-    console.log('usuario estructura', user);
+    const userQueryResult = await GetUser(
+      user.uid,
+      ProviderTypes.GitHubProvider
+    );
+
+    if (!userQueryResult.ok) {
+      dispatch({ type: AuthTypes.error, payload: userQueryResult.error });
+      return;
+    }
+
     const { uid, photoURL } = user;
     const screenName = user.reloadUserInfo.screenName;
-    const payload = { uid, displayName: screenName, photoURL };
+    const provider = ProviderTypes.GitHubProvider;
+    const payload = {
+      uid,
+      displayName: screenName,
+      photoURL,
+      provider,
+      ...userQueryResult.user,
+    };
     const action = { type: AuthTypes.logInWithGitHub, payload };
 
     localStorage.setItem('user', JSON.stringify(payload));
     dispatch(action);
 
     return true;
+  };
+
+  const updateCurrentUserInfo = (user) => {
+    localStorage.removeItem('user');
+    localStorage.setItem('user', JSON.stringify(user));
+    dispatch({ type: AuthTypes.updateCurrentUserInfo, payload: user });
   };
 
   const logOut = () => {
@@ -92,6 +117,7 @@ export const LogInProvider = ({ children }) => {
         LogInWithGoogle,
         LogInWithGitHub,
         logOut,
+        updateCurrentUserInfo,
       }}
     >
       {children}
