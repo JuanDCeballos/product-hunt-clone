@@ -3,7 +3,7 @@ import { getProductsCreatedByUserUID } from '../../Firebase/Functions';
 import { useContext, useEffect, useState } from 'react';
 import { LogInContext } from '../../Login/Context';
 
-export const ProductListComponent = ({ Title }) => {
+export const UserProductListComponent = () => {
   const [products, setProducts] = useState([]);
   const { user } = useContext(LogInContext);
 
@@ -15,16 +15,13 @@ export const ProductListComponent = ({ Title }) => {
 
   return (
     <>
-      <div className="flex flex-col space-y-8 ">
-        <h3 className="font-bold text-2xl"> {Title} </h3>
+      <div className="flex flex-col space-y-8 mt-10">
         <div className="space-y-4 w-3/4">
           <div className="flex flex-row space-x-6 ">
-            <h4 className="font-semibold text-red-400"> Featured </h4>
-            <h4 className="font-semibold"> | </h4>
-            <h4 className="font-semibold"> All </h4>
+            <h4 className="font-semibold"> Products </h4>
           </div>
 
-          <hr className="w-3/5" />
+          <div className="border-b border-indigo-100 px-6"></div>
         </div>
 
         <div className="flex flex-col space-y-8">
