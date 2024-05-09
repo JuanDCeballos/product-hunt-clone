@@ -25,6 +25,21 @@ export const getProducts = async () => {
   }
 };
 
+export async function getCommentsInProduct(productUID) {
+  try {
+    if (!productUID) throw "ProductUID can't be null.";
+    const commentsRef = collection(db, `Productos/${productUID}/Comments`);
+    const commentsResult = await getDocs(commentsRef);
+    let JSONToReturn = [];
+    commentsResult.forEach((comment) => {
+      JSONToReturn.push({ id: comment.id, ...comment.data() });
+    });
+    return { ok: true, comments: JSONToReturn };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
+
 export async function setProductInDisabled(productUID) {
   try {
     if (!productUID) throw "ProductUID can't be null.";
