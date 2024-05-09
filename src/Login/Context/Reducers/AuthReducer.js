@@ -44,6 +44,7 @@ export const AuthReducer = (state = {}, action) => {
       return {
         ...state,
         logged: true,
+        user: action.payload,
       };
   }
 };

@@ -1,8 +1,15 @@
 import { useForm } from 'react-hook-form';
-import { Toaster, toast } from 'sonner';
+import { toast } from 'sonner';
 import { addProduct } from '../../Firebase/Functions';
+import { LogInContext } from '../../Login/Context';
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 export const ProductForm = () => {
+  const { user } = useContext(LogInContext);
+
+  const navigate = useNavigate();
+
   const {
     register,
     reset,
@@ -15,16 +22,20 @@ export const ProductForm = () => {
       toast.error('An error ocurred, try again!');
       return;
     }
-    toast.promise(addProduct(data), {
-      loading: 'Añadiendo producto...',
+
+    const newProduct = { ...data, createdBy: user.uid, enabled: true };
+
+    toast.promise(addProduct(newProduct), {
+      loading: 'Adding product...',
       success: 'Product added successfully!',
       error: 'An error ocurred while trying to save data.',
     });
+
+    navigate('/', { replace: true });
   };
 
   return (
     <>
-      <Toaster richColors />
       <div className="max-w-4xl mt-16 mx-auto">
         <form
           onSubmit={handleSubmit(SaveData)}

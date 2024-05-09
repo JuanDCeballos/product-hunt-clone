@@ -99,7 +99,7 @@ export const LogInProvider = ({ children }) => {
 
   const updateCurrentUserInfo = (user) => {
     localStorage.removeItem('user');
-    localStorage.setItem('user', user);
+    localStorage.setItem('user', JSON.stringify(user));
     dispatch({ type: AuthTypes.updateCurrentUserInfo, payload: user });
   };
 
@@ -117,6 +117,7 @@ export const LogInProvider = ({ children }) => {
         LogInWithGoogle,
         LogInWithGitHub,
         logOut,
+        updateCurrentUserInfo,
       }}
     >
       {children}

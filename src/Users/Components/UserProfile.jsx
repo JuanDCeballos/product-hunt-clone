@@ -1,13 +1,13 @@
 import { useState, useContext, useRef, useEffect } from 'react';
 import { LogInContext } from '../../Login/Context';
 import { useForm } from 'react-hook-form';
-import { Toaster, toast } from 'sonner';
+import { toast } from 'sonner';
 import { UpdateUser } from '../../Firebase/Functions';
 import { UserProductListComponent } from '../../Product/Components/UserProductListComponent';
 
 export const UserProfile = () => {
-  const { user, provider } = useContext(LogInContext);
   const [showProducts, setShowProducts] = useState(false);
+  const { user, provider, updateCurrentUserInfo } = useContext(LogInContext);
 
   const textAreaRef = useRef();
   const [val, setVal] = useState(user.bio);
@@ -45,11 +45,27 @@ export const UserProfile = () => {
     }
 
     data.bio = val;
-    toast.promise(UpdateUser(user.uid, data, provider), {
+
+    const newData = { ...data, updatedAt: new Date().toLocaleDateString() };
+
+    toast.promise(UpdateUser(user.uid, newData, provider), {
       loading: 'Updating user...',
       success: 'User updated successfully!',
       error: 'An error ocurred while trying to update user.',
     });
+
+    const newUser = {
+      ...user,
+      bio: data.bio,
+      communityMember: data.communityMember,
+      email: data.email,
+      profileDesc: data.profileDesc,
+      work: data.work,
+      updatedAt: newData.updatedAt,
+    };
+
+    updateCurrentUserInfo(newUser);
+
     setIsEditing((prevVal) => !prevVal);
   };
 
@@ -63,7 +79,6 @@ export const UserProfile = () => {
 
   return (
     <>
-      <Toaster richColors />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex justify-center items-center bg-gray-100 py-10">
           <div className="bg-white rounded-lg shadow-md w-full max-w-3xl p-10">
