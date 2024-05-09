@@ -5,7 +5,7 @@ import { Toaster, toast } from 'sonner';
 import { UpdateUser } from '../../Firebase/Functions';
 
 export const UserProfile = () => {
-  const { user, provider } = useContext(LogInContext);
+  const { user, provider, updateCurrentUserInfo } = useContext(LogInContext);
 
   const textAreaRef = useRef();
   const [val, setVal] = useState(user.bio);
@@ -39,11 +39,27 @@ export const UserProfile = () => {
     }
 
     data.bio = val;
-    toast.promise(UpdateUser(user.uid, data, provider), {
+
+    const newData = { ...data, updatedAt: new Date().toLocaleDateString() };
+
+    toast.promise(UpdateUser(user.uid, newData, provider), {
       loading: 'Updating user...',
       success: 'User updated successfully!',
       error: 'An error ocurred while trying to update user.',
     });
+
+    const newUser = {
+      ...user,
+      bio: data.bio,
+      communityMember: data.communityMember,
+      email: data.email,
+      profileDesc: data.profileDesc,
+      work: data.work,
+      updatedAt: newData.updatedAt,
+    };
+
+    updateCurrentUserInfo(newUser);
+
     setIsEditing((prevVal) => !prevVal);
   };
 
@@ -75,7 +91,6 @@ export const UserProfile = () => {
                 </h1>
                 <p className="text-gray-500">@{user.displayName}</p>
                 <input
-                  {...register('profileDesc', { required: true })}
                   type="text"
                   className={`border rounded-md p-2 mt-2 w-full ${inputBorderColor}`}
                   value={!isEditing ? user.profileDesc : undefined}
@@ -115,7 +130,6 @@ export const UserProfile = () => {
                     Community Member
                   </p>
                   <input
-                    {...register('communityMember', { required: true })}
                     placeholder="Community here..."
                     type="text"
                     className={`border rounded-md p-2 w-full ${inputBorderColor}`}
@@ -135,7 +149,6 @@ export const UserProfile = () => {
                 <div>
                   <p className="text-gray-500 font-semibold">Work</p>
                   <input
-                    {...register('work', { required: true })}
                     placeholder="Work here..."
                     type="text"
                     className={`border rounded-md p-2 w-full ${inputBorderColor}`}
@@ -146,7 +159,6 @@ export const UserProfile = () => {
                 <div>
                   <p className="text-gray-500 font-semibold">Email</p>
                   <input
-                    {...register('email', { required: true })}
                     placeholder="Email here..."
                     type="text"
                     className={`border rounded-md p-2 w-full ${inputBorderColor}`}
