@@ -2,6 +2,8 @@ import { CiChat2, CiSquareChevUp } from 'react-icons/ci';
 import Modal from './Modal.jsx';
 import { useContext, useState } from 'react';
 import { ProductContext } from '../Contexts/Context/ProductContext.jsx';
+import { toast } from 'sonner';
+import { getCommentsInProduct } from '../../Firebase/Functions';
 
 export const SimpleProductView = ({ productInfo }) => {
   const {
@@ -19,9 +21,21 @@ export const SimpleProductView = ({ productInfo }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => {
-    console.log(productInfo);
-    SetProduct(productInfo);
-    setIsOpen((prevState) => !prevState);
+    toast.promise(getCommentsInProduct(productInfo.id), {
+      loading: 'Gettings product comments...',
+      error:
+        'An error ocurred while trying to get comments in selected product.',
+      success: (result) => {
+        console.log(result.comments);
+        const productWithComments = {
+          ...productInfo,
+          comments: result.comments,
+        };
+        SetProduct(productWithComments);
+        setIsOpen((prevState) => !prevState);
+        return 'Comments obtained!';
+      },
+    });
   };
 
   const closeModal = () => {
