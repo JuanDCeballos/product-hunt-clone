@@ -2,12 +2,12 @@ import { useState, useContext, useRef, useEffect } from 'react';
 import { LogInContext } from '../../Login/Context';
 import { useForm } from 'react-hook-form';
 import { Toaster, toast } from 'sonner';
+import { UpdateUser } from '../../Firebase/Functions';
 
 export const UserProfile = () => {
-  const { user } = useContext(LogInContext);
+  const { user, provider } = useContext(LogInContext);
   const {
     displayName,
-    UserID,
     photoURL,
     CommunityMember,
     Streak,
@@ -50,9 +50,18 @@ export const UserProfile = () => {
   const inputBorderColor = isEditing ? 'border-blue-500' : 'border-gray-300';
 
   const onSubmit = (data) => {
+    if (!data) {
+      toast.error('An error ocurred. Try again!');
+      return;
+    }
+
+    data.bio = val;
+    toast.promise(UpdateUser(user.uid, data, provider), {
+      loading: 'Updating user...',
+      success: 'User updated successfully!',
+      error: 'An error ocurred while trying to update user.',
+    });
     setIsEditing((prevVal) => !prevVal);
-    console.log(data);
-    toast('Data saved');
   };
 
   const onCancelClick = () => {
@@ -63,7 +72,7 @@ export const UserProfile = () => {
 
   return (
     <>
-      <Toaster />
+      <Toaster richColors />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex justify-center items-center bg-gray-100 py-10">
           <div className="bg-white rounded-lg shadow-md w-full max-w-3xl p-10">

@@ -8,6 +8,7 @@ import {
 } from '../../Firebase/Functions';
 import { AuthTypes } from './Types';
 import { singOutCurrent } from '../../Firebase/Functions';
+import { ProviderTypes } from '../../Firebase/Helpers';
 
 const initialState = { logged: false };
 
@@ -50,7 +51,8 @@ export const LogInProvider = ({ children }) => {
     }
 
     const { uid, displayName, photoURL } = user;
-    const payload = { uid, displayName, photoURL };
+    const provider = ProviderTypes.GoogleProvider;
+    const payload = { uid, displayName, photoURL, provider };
     const action = { type: AuthTypes.logInWithGoogle, payload };
 
     localStorage.setItem('user', JSON.stringify(payload));
@@ -66,10 +68,10 @@ export const LogInProvider = ({ children }) => {
       return;
     }
 
-    console.log('usuario estructura', user);
     const { uid, photoURL } = user;
     const screenName = user.reloadUserInfo.screenName;
-    const payload = { uid, displayName: screenName, photoURL };
+    const provider = ProviderTypes.GitHubProvider;
+    const payload = { uid, displayName: screenName, photoURL, provider };
     const action = { type: AuthTypes.logInWithGitHub, payload };
 
     localStorage.setItem('user', JSON.stringify(payload));
