@@ -1,12 +1,13 @@
+import { CiChat2 } from 'react-icons/ci';
+import { GrEdit } from 'react-icons/gr';
+import { AiOutlineDelete } from 'react-icons/ai';
+import { MdOutlineRestore } from 'react-icons/md';
+import { useState } from 'react';
 import {
-  AiOutlineDelete,
-  GrEdit,
-  CiChat2,
-  MdOutlineRestore,
-} from 'react-icons/ci';
-import Modal from './Modal.jsx';
-import { useContext, useState } from 'react';
-import { ProductContext } from '../Contexts/Context/ProductContext.jsx';
+  setProductInDisabled,
+  setProductInEnabled,
+} from '../../Firebase/Functions';
+import { toast } from 'sonner';
 
 export const SimpleProductUserView = ({ productInfo }) => {
   const {
@@ -19,27 +20,34 @@ export const SimpleProductUserView = ({ productInfo }) => {
     enabled,
   } = productInfo;
 
-  const { SetProduct } = useContext(ProductContext);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isEnabled, setIsEnabled] = useState(enabled);
 
-  const openModal = () => {
-    console.log(productInfo);
-    SetProduct(productInfo);
-    setIsOpen((prevState) => !prevState);
+  const deleteProduct = () => {
+    toast.promise(setProductInDisabled(productInfo.id), {
+      loading: 'Deleting product...',
+      error: 'An error ocurred while trying to delete product.',
+      success: () => {
+        setIsEnabled(false);
+        return 'Product deleted successfully.';
+      },
+    });
   };
 
-  const closeModal = () => {
-    setIsOpen((prevState) => !prevState);
+  const restoreProduct = () => {
+    toast.promise(setProductInEnabled(productInfo.id), {
+      loading: 'Restoring product...',
+      error: 'An error ocurred while trying to restore product.',
+      success: () => {
+        setIsEnabled(true);
+        return 'Product restored successfully.';
+      },
+    });
   };
 
   return (
     <>
-      <Modal isOpen={isOpen} closeModal={closeModal} />
       <a>
-        <div
-          className="flex flex-row justify-between space-x-4 "
-          onClick={openModal}
-        >
+        <div className="flex flex-row justify-between space-x-4 ">
           <div className="flex flex-row space-x-6 items-center">
             <img className="size-16 rounded-lg" src={picture} />
 
@@ -60,9 +68,12 @@ export const SimpleProductUserView = ({ productInfo }) => {
               </div>
             </div>
           </div>
-          {enabled ? (
+          {isEnabled ? (
             <>
-              <button className="border-l border-indigo-100 px-6 size-16">
+              <button
+                className="border-l border-indigo-100 px-6 size-16"
+                onClick={deleteProduct}
+              >
                 <div className="flex flex-col items-center">
                   <AiOutlineDelete />
                 </div>
@@ -74,7 +85,10 @@ export const SimpleProductUserView = ({ productInfo }) => {
               </button>
             </>
           ) : (
-            <button className="border-l border-indigo-100 px-6 size-16">
+            <button
+              className="border-l border-indigo-100 px-6 size-16"
+              onClick={restoreProduct}
+            >
               <div className="flex flex-col items-center">
                 <MdOutlineRestore />
               </div>
