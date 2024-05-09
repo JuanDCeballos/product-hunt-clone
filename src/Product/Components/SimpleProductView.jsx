@@ -20,22 +20,15 @@ export const SimpleProductView = ({ productInfo }) => {
   const { SetProduct } = useContext(ProductContext);
   const [isOpen, setIsOpen] = useState(false);
 
-  const openModal = () => {
-    toast.promise(getCommentsInProduct(productInfo.id), {
-      loading: 'Gettings product comments...',
-      error:
-        'An error ocurred while trying to get comments in selected product.',
-      success: (result) => {
-        console.log(result.comments);
-        const productWithComments = {
-          ...productInfo,
-          comments: result.comments,
-        };
-        SetProduct(productWithComments);
-        setIsOpen((prevState) => !prevState);
-        return 'Comments obtained!';
-      },
-    });
+  const openModal = async () => {
+    const Comments = await getCommentsInProduct(productInfo.id);
+    const productWithComments = {
+      ...productInfo,
+      comments: Comments.comments,
+    };
+    SetProduct(productWithComments);
+    setIsOpen((prevState) => !prevState);
+    toast.success('Comments obtained!');
   };
 
   const closeModal = () => {

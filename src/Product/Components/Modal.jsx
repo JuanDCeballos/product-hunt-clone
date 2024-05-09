@@ -7,7 +7,7 @@ import { CiChat2, CiBookmark } from 'react-icons/ci';
 import { IoShareOutline } from 'react-icons/io5';
 import { PiChartBarThin } from 'react-icons/pi';
 import { IoMdClose } from 'react-icons/io';
-import Review from './Review';
+import { Review } from './Review';
 import { useContext, useRef, useState } from 'react';
 import { ProductContext } from '../Contexts/Context/ProductContext';
 import { useEffect } from 'react';
@@ -204,10 +204,10 @@ const ProductView = ({ isOpen, closeModal }) => {
                   </button>
                 </div>
               </div>
-              <Review />
-              <Review />
-              <Review />
-              <Review />
+              {/* {comments &&
+                comments.map((comment) => {
+                  <Review key={comment.id} />;
+                })} */}
             </div>
           </div>
         </div>

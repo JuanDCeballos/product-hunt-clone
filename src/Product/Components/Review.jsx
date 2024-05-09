@@ -1,23 +1,26 @@
+import { useContext } from 'react';
 import ReactStars from 'react-rating-stars-component';
+import { ProductContext } from '../Contexts/Context/ProductContext';
 
-const Review = () => {
+export const Review = () => {
+  const { product } = useContext(ProductContext);
+  const { UserPhotoURL, UserName, Message, Rating, UserDescription } = product;
+  console.log(product);
+
   return (
     <div>
       <div className="flex gap-2 items-center">
         <div>
-          <img
-            src="https://ph-avatars.imgix.net/6982560/original.png?auto=compress&codec=mozjpeg&cs=strip&auto=format&w=40&h=40&fit=crop&dpr=1"
-            className="rounded-full"
-          />
+          <img src={UserPhotoURL} className="rounded-full" />
         </div>
         <div>
           <div className="flex flex-row gap-2">
             <a className="text-base font-semibold" href="">
-              John Doe
+              {UserName}
             </a>
             <button className="text-xs text-orange-500">Follow</button>
           </div>
-          <p className="text-sm">Founder & Leadership</p>
+          <p className="text-sm">{UserDescription}</p>
         </div>
       </div>
       <div>
@@ -26,17 +29,13 @@ const Review = () => {
             count={5}
             activeColor="#2563eb"
             size={24}
-            value={5}
+            value={Rating}
             edit={false}
           ></ReactStars>
         </div>
-        <p className="text-lg italic font-normal text-slate-500">
-          I use Notion for all my document keeping as of now. Amazing to use.
-        </p>
+        <p className="text-lg italic font-normal text-slate-500">{Message}</p>
       </div>
       <hr className="mt-8" />
     </div>
   );
 };
-
-export default Review;
