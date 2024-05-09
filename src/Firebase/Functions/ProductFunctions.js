@@ -5,6 +5,9 @@ import {
   getDocs,
   addDoc,
   setDoc,
+  where,
+  query,
+  query,
 } from 'firebase/firestore';
 import { db } from '../Firebase';
 
@@ -20,6 +23,23 @@ export const getProducts = async () => {
     return error;
   }
 };
+
+export async function getProductsCreatedByUserUID(userUID) {
+  try {
+    if (!userUID) throw "UserUID can't be null.";
+    const productsRef = collection(db, 'Productos');
+    const query = query(productsRef, where('createdBy', '==', userUID));
+    const productsResult = await getDocs(query);
+    let JSONToReturn = [];
+    resultQuery.forEach((doc) => {
+      JSONToReturn.push({ id: doc.id, ...doc.data() });
+    });
+
+    return { ok: true, products: JSONToReturn };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
 
 export async function addProduct(product) {
   try {
