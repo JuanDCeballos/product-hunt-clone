@@ -14,6 +14,19 @@ export async function UpdateUser(userIUD, userModified, provider) {
   }
 }
 
+export async function GetUser(userUID, provider) {
+  try {
+    if (!userUID) throw "UserUID can't be null.";
+    if (!provider) throw "Provider can't be null.";
+    const userReference = doc(db, `Usuarios ${provider}`, userUID);
+    const documentResult = await getDoc(userReference);
+
+    return { ok: true, user: documentResult.data() };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
+
 export async function CreateNewUser(userIUD, timeStamp, provider) {
   try {
     if (!userIUD) throw "User UID can't be null.";

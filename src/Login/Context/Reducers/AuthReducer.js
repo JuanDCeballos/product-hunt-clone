@@ -39,5 +39,11 @@ export const AuthReducer = (state = {}, action) => {
         logged: false,
         errorMessage: action.payload?.errorMessage,
       };
+
+    case AuthTypes.updateCurrentUserInfo:
+      return {
+        ...state,
+        logged: true,
+      };
   }
 };

@@ -7,8 +7,9 @@ import {
   SingInWithGitHub,
 } from '../../Firebase/Functions';
 import { AuthTypes } from './Types';
-import { singOutCurrent } from '../../Firebase/Functions';
+import { singOutCurrent, GetUser } from '../../Firebase/Functions';
 import { ProviderTypes } from '../../Firebase/Helpers';
+import { IoPlayForwardCircleSharp } from 'react-icons/io5';
 
 const initialState = { logged: false };
 
@@ -68,16 +69,38 @@ export const LogInProvider = ({ children }) => {
       return;
     }
 
+    const userQueryResult = await GetUser(
+      user.uid,
+      ProviderTypes.GitHubProvider
+    );
+
+    if (!userQueryResult.ok) {
+      dispatch({ type: AuthTypes.error, payload: userQueryResult.error });
+      return;
+    }
+
     const { uid, photoURL } = user;
     const screenName = user.reloadUserInfo.screenName;
     const provider = ProviderTypes.GitHubProvider;
-    const payload = { uid, displayName: screenName, photoURL, provider };
+    const payload = {
+      uid,
+      displayName: screenName,
+      photoURL,
+      provider,
+      ...userQueryResult.user,
+    };
     const action = { type: AuthTypes.logInWithGitHub, payload };
 
     localStorage.setItem('user', JSON.stringify(payload));
     dispatch(action);
 
     return true;
+  };
+
+  const updateCurrentUserInfo = (user) => {
+    localStorage.removeItem('user');
+    localStorage.setItem('user', user);
+    dispatch({ type: AuthTypes.updateCurrentUserInfo, payload: user });
   };
 
   const logOut = () => {

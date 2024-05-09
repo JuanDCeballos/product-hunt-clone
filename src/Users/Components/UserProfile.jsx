@@ -6,25 +6,10 @@ import { UpdateUser } from '../../Firebase/Functions';
 
 export const UserProfile = () => {
   const { user, provider } = useContext(LogInContext);
-  const {
-    displayName,
-    photoURL,
-    CommunityMember,
-    Streak,
-    Followers,
-    Following,
-    Reviews,
-    Profile,
-    Work,
-    Email,
-    CreatedDateTime,
-    ModifiedDateTime,
-    BIO,
-  } = user;
 
   const textAreaRef = useRef();
-
-  const [val, setVal] = useState('');
+  const [val, setVal] = useState(user.bio);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     if (textAreaRef.current) {
@@ -40,8 +25,6 @@ export const UserProfile = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const [isEditing, setIsEditing] = useState(false);
 
   const handleEditClick = () => {
     setIsEditing(!isEditing);
@@ -65,10 +48,12 @@ export const UserProfile = () => {
   };
 
   const onCancelClick = () => {
-    setVal('');
+    setVal(user.bio);
     setIsEditing(false);
     reset();
   };
+
+  console.log(user);
 
   return (
     <>
@@ -80,46 +65,41 @@ export const UserProfile = () => {
               <div>
                 <img
                   className="w-32 h-32 rounded-full border-4 border-gray-800"
-                  src={photoURL}
+                  src={user.photoURL}
                   alt="User's profile photoURL"
                 />
               </div>
               <div>
                 <h1 className="text-2xl font-semibold text-gray-800">
-                  {displayName}
+                  {user.displayName}
                 </h1>
-                <p className="text-gray-500">@{displayName}</p>
+                <p className="text-gray-500">@{user.displayName}</p>
                 <input
                   {...register('profileDesc', { required: true })}
                   type="text"
                   className={`border rounded-md p-2 mt-2 w-full ${inputBorderColor}`}
-                  value={Profile}
+                  value={!isEditing ? user.profileDesc : undefined}
                   disabled={!isEditing}
                   placeholder="Description here..."
                 />
-                {isEditing && errors.profileDesc && (
-                  <p className="mt-2 text-red-500 text-xs">
-                    This field is required
-                  </p>
-                )}
                 <div className="mt-4 flex">
                   <div className="mr-6 text-center">
                     <p className="bg-blue-500 text-white px-2 py-1 rounded-full text-xs">
                       Reviews
                     </p>
-                    <p className="font-semibold">{Reviews}</p>
+                    <p className="font-semibold">{user.Reviews}</p>
                   </div>
                   <div className="mr-6 text-center">
                     <p className="bg-red-500 text-white px-2 py-1 rounded-full text-xs">
                       Followers
                     </p>
-                    <p className="font-semibold">{Followers}</p>
+                    <p className="font-semibold">{user.Followers}</p>
                   </div>
                   <div className="text-center">
                     <p className="bg-yellow-500 text-white px-2 py-1 rounded-full text-xs">
                       Following
                     </p>
-                    <p className="font-semibold">{Following}</p>
+                    <p className="font-semibold">{user.Following}</p>
                   </div>
                 </div>
               </div>
@@ -139,14 +119,9 @@ export const UserProfile = () => {
                     placeholder="Community here..."
                     type="text"
                     className={`border rounded-md p-2 w-full ${inputBorderColor}`}
-                    value={CommunityMember}
+                    value={!isEditing ? user.communityMember : undefined}
                     disabled={!isEditing}
                   />
-                  {isEditing && errors.communityMember && (
-                    <p className="mt-2 text-red-500 text-xs">
-                      This field is required
-                    </p>
-                  )}
                 </div>
                 <div>
                   <p className="text-gray-500 font-semibold">Streak</p>
@@ -154,6 +129,7 @@ export const UserProfile = () => {
                     type="text"
                     className="border rounded-md p-2 w-full border-gray-300"
                     disabled={true}
+                    value={1}
                   />
                 </div>
                 <div>
@@ -163,14 +139,9 @@ export const UserProfile = () => {
                     placeholder="Work here..."
                     type="text"
                     className={`border rounded-md p-2 w-full ${inputBorderColor}`}
-                    value={Work}
+                    value={!isEditing ? user.work : undefined}
                     disabled={!isEditing}
                   />
-                  {isEditing && errors.work && (
-                    <p className="mt-2 text-red-500 text-xs">
-                      This field is required
-                    </p>
-                  )}
                 </div>
                 <div>
                   <p className="text-gray-500 font-semibold">Email</p>
@@ -179,21 +150,16 @@ export const UserProfile = () => {
                     placeholder="Email here..."
                     type="text"
                     className={`border rounded-md p-2 w-full ${inputBorderColor}`}
-                    value={Email}
+                    value={!isEditing ? user.email : undefined}
                     disabled={!isEditing}
                   />
-                  {isEditing && errors.email && (
-                    <p className="mt-2 text-red-500 text-xs">
-                      This field is required
-                    </p>
-                  )}
                 </div>
                 <div>
                   <p className="text-gray-500 font-semibold">Created At</p>
                   <input
                     type="text"
                     className="border rounded-md p-2 w-full border-gray-300"
-                    value={CreatedDateTime}
+                    value={user.createdAt}
                     disabled={true}
                   />
                 </div>
@@ -202,7 +168,7 @@ export const UserProfile = () => {
                   <input
                     type="text"
                     className="border rounded-md p-2 w-full border-gray-300"
-                    value={ModifiedDateTime}
+                    value={user.updatedAt}
                     disabled={true}
                   />
                 </div>
