@@ -26,7 +26,7 @@ export const ProductForm = () => {
     const newProduct = { ...data, createdBy: user.uid, enabled: true };
 
     toast.promise(addProduct(newProduct), {
-      loading: 'Añadiendo producto...',
+      loading: 'Adding product...',
       success: 'Product added successfully!',
       error: 'An error ocurred while trying to save data.',
     });
