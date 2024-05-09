@@ -1,7 +1,7 @@
 import { useState, useContext, useRef, useEffect } from 'react';
 import { LogInContext } from '../../Login/Context';
 import { useForm } from 'react-hook-form';
-import { Toaster, toast } from 'sonner';
+import { toast } from 'sonner';
 import { UpdateUser } from '../../Firebase/Functions';
 
 export const UserProfile = () => {
@@ -73,7 +73,6 @@ export const UserProfile = () => {
 
   return (
     <>
-      <Toaster richColors />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex justify-center items-center bg-gray-100 py-10">
           <div className="bg-white rounded-lg shadow-md w-full max-w-3xl p-10">
