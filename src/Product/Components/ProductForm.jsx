@@ -5,8 +5,6 @@ import { LogInContext } from '../../Login/Context';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { MdOutlinePermMedia } from 'react-icons/md';
-import { FcInfo } from 'react-icons/fc';
 
 export const ProductForm = () => {
   const { user } = useContext(LogInContext);
@@ -94,21 +92,6 @@ export const ProductForm = () => {
                 <div className="bg-white p-6 rounded-lg shadow-lg ">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
-                      <div className="mb-4">
-                        <label
-                          className="block text-gray-700 font-semibold mb-2"
-                          htmlFor="id"
-                        >
-                          ID
-                        </label>
-                        <input
-                          className="border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring focus:ring-gray-400"
-                          id="id"
-                          disabled={true}
-                          type="text"
-                          placeholder="ID"
-                        />
-                      </div>
                       <div className="mb-4">
                         <label
                           className="block text-gray-700 font-semibold mb-2"
