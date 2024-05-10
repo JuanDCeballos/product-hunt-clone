@@ -55,6 +55,21 @@ export async function setProductInEnabled(productUID) {
   }
 }
 
+export async function getProductById(productUID) {
+  try {
+    if (!productUID) throw "ProductUID can't be null.";
+
+    const documentReference = doc(db, 'Productos', productUID);
+    const document = await getDoc(documentReference);
+    if (!document.exists()) throw "Document doesn't exist.";
+
+    const product = { id: document.id, ...document.data() };
+    return { Ok: true, product };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
+
 export async function getProductsCreatedByUserUID(userUID) {
   try {
     if (!userUID) throw "UserUID can't be null.";

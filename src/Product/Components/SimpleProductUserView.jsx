@@ -8,6 +8,7 @@ import {
   setProductInEnabled,
 } from '../../Firebase/Functions';
 import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
 
 export const SimpleProductUserView = ({ productInfo }) => {
   const {
@@ -19,6 +20,8 @@ export const SimpleProductUserView = ({ productInfo }) => {
     productCategory,
     enabled,
   } = productInfo;
+
+  const navigate = useNavigate();
 
   const [isEnabled, setIsEnabled] = useState(enabled);
 
@@ -42,6 +45,10 @@ export const SimpleProductUserView = ({ productInfo }) => {
         return 'Product restored successfully.';
       },
     });
+  };
+
+  const updateProduct = () => {
+    navigate('../SumbitProduct', { replace: true });
   };
 
   return (
@@ -79,7 +86,10 @@ export const SimpleProductUserView = ({ productInfo }) => {
                 </div>
               </button>
               <button className="border-l border-indigo-100 px-6 size-16">
-                <div className="flex flex-col items-center">
+                <div
+                  onClick={updateProduct}
+                  className="flex flex-col items-center"
+                >
                   <GrEdit />
                 </div>
               </button>
