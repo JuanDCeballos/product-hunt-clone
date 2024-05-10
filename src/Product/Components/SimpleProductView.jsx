@@ -14,7 +14,7 @@ export const SimpleProductView = ({ productInfo }) => {
     productPlatform,
     softwareProductType,
     productCategory,
-    RatingCount,
+    commentsCount,
   } = productInfo;
 
   const { SetProduct } = useContext(ProductContext);
@@ -74,7 +74,7 @@ export const SimpleProductView = ({ productInfo }) => {
           <button className="border-l border-indigo-100 px-6 size-16">
             <div className="flex flex-col items-center">
               <CiSquareChevUp />
-              {RatingCount}
+              {commentsCount}
             </div>
           </button>
         </div>
