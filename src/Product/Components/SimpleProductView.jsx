@@ -21,14 +21,19 @@ export const SimpleProductView = ({ productInfo }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = async () => {
-    const Comments = await getCommentsInProduct(productInfo.id);
-    const productWithComments = {
-      ...productInfo,
-      comments: Comments.comments,
-    };
-    SetProduct(productWithComments);
-    setIsOpen((prevState) => !prevState);
-    toast.success('Comments obtained!');
+    toast.promise(getCommentsInProduct(productInfo.id), {
+      loading: 'Getting comments...',
+      error: 'An error ocurred while trying product comments.',
+      success: (data) => {
+        const productWithComments = {
+          ...productInfo,
+          comments: data.comments,
+        };
+        SetProduct(productWithComments);
+        setIsOpen((prevState) => !prevState);
+        return 'Comments obainted successfully!';
+      },
+    });
   };
 
   const closeModal = () => {
