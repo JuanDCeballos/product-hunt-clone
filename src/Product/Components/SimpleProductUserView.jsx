@@ -85,11 +85,11 @@ export const SimpleProductUserView = ({ productInfo }) => {
                   <AiOutlineDelete />
                 </div>
               </button>
-              <button className="border-l border-indigo-100 px-6 size-16">
-                <div
-                  onClick={updateProduct}
-                  className="flex flex-col items-center"
-                >
+              <button
+                className="border-l border-indigo-100 px-6 size-16"
+                onClick={updateProduct}
+              >
+                <div className="flex flex-col items-center">
                   <GrEdit />
                 </div>
               </button>
