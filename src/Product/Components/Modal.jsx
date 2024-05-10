@@ -39,15 +39,6 @@ const ProductView = ({ isOpen, closeModal }) => {
 
   const { productToShowInModal, SetProductToShowInModal } =
     useContext(ProductContext);
-  const { User } = useContext(LogInContext);
-  // const {
-  //   picture,
-  //   productName,
-  //   productShortDescription,
-  //   longDescription,
-  //   MediaLink,
-  //   averageRating,
-  // } = productToShowInModal;
 
   const onChangeStarsRating = (newRating) => {
     setRating(newRating);
