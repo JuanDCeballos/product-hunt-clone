@@ -115,6 +115,21 @@ export async function setProductInEnabled(productUID) {
   }
 }
 
+export async function getProductById(productUID) {
+  try {
+    if (!productUID) throw "ProductUID can't be null.";
+
+    const documentReference = doc(db, 'Productos', productUID);
+    const document = await getDoc(documentReference);
+    if (!document.exists()) throw "Document doesn't exist.";
+
+    const product = { id: document.id, ...document.data() };
+    return { ok: true, product };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
+
 export async function getProductsCreatedByUserUID(userUID) {
   try {
     if (!userUID) throw "UserUID can't be null.";
@@ -143,6 +158,19 @@ export async function addProduct(product) {
     };
   } catch (error) {
     return { Ok: false, Error: `Error when adding the product. ${error}` };
+  }
+}
+
+export async function UpdateProduct(product, productUID) {
+  try {
+    if (!productUID) throw "Product UID can't be null.";
+    if (!product) throw "Product can't be null.";
+
+    const productReference = doc(db, `Productos`, productUID);
+    await setDoc(productReference, product, { merge: true });
+    return { ok: true, message: 'product modified successfully!' };
+  } catch (error) {
+    return { ok: false, error };
   }
 }
 

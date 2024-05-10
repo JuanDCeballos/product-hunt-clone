@@ -9,7 +9,7 @@ import { PiChartBarThin } from 'react-icons/pi';
 import { IoMdClose } from 'react-icons/io';
 import { Review } from './Review';
 import { useContext, useRef, useState } from 'react';
-import { ProductContext } from '../Contexts/Context/ProductContext';
+import { ProductContext } from '../Contexts';
 import { useEffect } from 'react';
 import { LogInContext } from '../../Login/Context/LogInContext';
 import { toast } from 'sonner';
@@ -26,8 +26,6 @@ const ProductView = ({ isOpen, closeModal }) => {
   const navigate = useNavigate();
 
   const { user } = useContext(LogInContext);
-  const { product, SetProduct } = useContext(ProductContext);
-
   const onInputChange = (e) => {
     setVal(e.target.value);
   };
@@ -39,14 +37,8 @@ const ProductView = ({ isOpen, closeModal }) => {
     }
   }, [val]);
 
-  const {
-    picture,
-    productName,
-    productShortDescription,
-    longDescription,
-    MediaLink,
-    averageRating,
-  } = product;
+  const { productToShowInModal, SetProductToShowInModal } =
+    useContext(ProductContext);
 
   const onChangeStarsRating = (newRating) => {
     setRating(newRating);
@@ -67,14 +59,17 @@ const ProductView = ({ isOpen, closeModal }) => {
       Rating: rating,
     };
 
-    toast.promise(addCommentInProduct(product.id, comment), {
+    toast.promise(addCommentInProduct(productToShowInModal.id, comment), {
       loading: 'Saving comment...',
       error: 'An error ocurred while trying to comment.',
       success: () => {
-        const commentsUpdated = product.comments;
+        const commentsUpdated = productToShowInModal.comments;
         commentsUpdated.push(comment);
-        const newProduct = { ...product, comments: commentsUpdated };
-        SetProduct(newProduct);
+        const newProduct = {
+          ...productToShowInModal,
+          comments: commentsUpdated,
+        };
+        SetProductToShowInModal(newProduct);
         setVal('');
         setRating(0);
         return 'Comment sended!';
@@ -88,7 +83,7 @@ const ProductView = ({ isOpen, closeModal }) => {
         <div className="font-mono">
           <div className="flex flex-col sm:flex-col">
             <div className="flex justify-between">
-              <img src={picture} className="size-16" />
+              <img src={productToShowInModal?.picture} className="size-16" />
               <button
                 onClick={closeModal}
                 className="text-5xl font-black hover:text-orange-400"
@@ -98,8 +93,10 @@ const ProductView = ({ isOpen, closeModal }) => {
             </div>
             <div className="sm:flex sm:flex-row sm:gap-4">
               <div>
-                <h1 className="font-black text-2xl">{productName}</h1>
-                <h2>{productShortDescription}</h2>
+                <h1 className="font-black text-2xl">
+                  {productToShowInModal?.productName}
+                </h1>
+                <h2>{productToShowInModal?.productShortDescription}</h2>
               </div>
               <div className="sm:flex sm:flex-col sm:gap-4">
                 <div className="flex my-3">
@@ -110,7 +107,7 @@ const ProductView = ({ isOpen, closeModal }) => {
                     <div className="flex flex-row justify-center items-center gap-4">
                       <p className="text-sm"> Average rating </p>
                       <ReactStars
-                        value={averageRating}
+                        value={productToShowInModal?.averageRating}
                         edit={false}
                         count={5}
                         size={34}
@@ -124,7 +121,10 @@ const ProductView = ({ isOpen, closeModal }) => {
             </div>
             <div className="flex flex-col gap-3">
               <div>
-                <p>{longDescription}</p>
+                <p className="text-slate-500">Free</p>
+              </div>
+              <div>
+                <p>{productToShowInModal?.longDescription}</p>
               </div>
               <div className="flex flex-wrap gap-1">
                 <button className="inline-flex gap-1 items-center hover:text-orange-400">
@@ -152,7 +152,7 @@ const ProductView = ({ isOpen, closeModal }) => {
               >
                 <div>
                   <iframe
-                    src={MediaLink}
+                    src={productToShowInModal?.MediaLink}
                     title="YouTube video player"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerPolicy="strict-origin-when-cross-origin"
@@ -184,7 +184,8 @@ const ProductView = ({ isOpen, closeModal }) => {
                   <>
                     <div className="flex w-full md:flex-row items-center p-3 mb-4">
                       <h2 className="font-semibold p-3">
-                        What do you think of {productName}?
+                        What do you think of {productToShowInModal?.productName}
+                        ?
                       </h2>
                       <ReactStars
                         value={rating}
@@ -231,7 +232,7 @@ const ProductView = ({ isOpen, closeModal }) => {
                   </div>
                 )}
               </div>
-              {product.comments?.map((comment) => (
+              {productToShowInModal?.comments?.map((comment) => (
                 <Review key={comment.id} comment={comment} />
               ))}
             </div>

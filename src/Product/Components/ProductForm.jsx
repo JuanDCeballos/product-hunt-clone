@@ -1,14 +1,21 @@
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { addProduct } from '../../Firebase/Functions';
+import { UpdateProduct, addProduct } from '../../Firebase/Functions';
 import { LogInContext } from '../../Login/Context';
 import { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import { ProductContext } from '../Contexts';
 
 export const ProductForm = () => {
   const { user } = useContext(LogInContext);
   const [activeSection, setActiveSection] = useState('BasicInfo');
+
+  const { productToEdit } = useContext(ProductContext);
+
+  const [isEditing, setIsEditing] = useState(productToEdit);
+
+  console.log(productToEdit);
 
   const navigate = useNavigate();
 
@@ -23,21 +30,32 @@ export const ProductForm = () => {
     formState: { errors },
   } = useForm();
 
-  const SaveData = async (data) => {
+  const SaveData = (data) => {
     if (!data) {
       toast.error('An error ocurred, try again!');
       return;
     }
 
-    const newProduct = { ...data, createdBy: user.uid, enabled: true };
+    if (isEditing) {
+      toast.promise(UpdateProduct(data, productToEdit.id), {
+        loading: 'Updating product...',
+        success: () => {
+          navigate('/', { replace: true });
+          return `Product ${productToEdit.productName} updated successfully!`;
+        },
+        error: 'An error ocurred while trying to save data.',
+      });
+    } else {
+      const newProduct = { ...data, createdBy: user.uid, enabled: true };
 
-    toast.promise(addProduct(newProduct), {
-      loading: 'Adding product...',
-      success: 'Product added successfully!',
-      error: 'An error ocurred while trying to save data.',
-    });
+      toast.promise(addProduct(newProduct), {
+        loading: 'Adding product...',
+        success: 'Product added successfully!',
+        error: 'An error ocurred while trying to save data.',
+      });
 
-    navigate('/', { replace: true });
+      navigate('/', { replace: true });
+    }
   };
 
   return (
@@ -100,13 +118,23 @@ export const ProductForm = () => {
                           Category
                         </label>
                         <select
-                          {...register('Category', { required: true })}
+                          {...register('Category', {
+                            required: true,
+                            value: productToEdit?.Category,
+                          })}
                           className="border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring focus:ring-gray-400"
                           id="category"
                         >
-                          <option value="category1">Category 1</option>
-                          <option value="category2">Category 2</option>
-                          <option value="category3">Category 3</option>
+                          <option value="Business">Business</option>
+                          <option value="Analytics">Analytics</option>
+                          <option value="Design">Design</option>
+                          <option value="Database">Database</option>
+                          <option value="Communication">Communication</option>
+                          <option value="Storage">Storage</option>
+                          <option value="Development">Development</option>
+                          <option value="Management">Management</option>
+                          <option value="Security">Security</option>
+                          <option value="Productivity">Productivity</option>
                         </select>
                         {errors.Category && (
                           <p className="mt-2 text-red-500 text-sm">
@@ -124,6 +152,7 @@ export const ProductForm = () => {
                         <textarea
                           {...register('productShortDescription', {
                             required: true,
+                            value: productToEdit?.productShortDescription,
                           })}
                           className="border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring focus:ring-gray-400"
                           id="shortDescription"
@@ -147,9 +176,12 @@ export const ProductForm = () => {
                           className="border border-gray-300 rounded-lg w-full py-2 px-3 text-gray-800 placeholder-gray-500 focus:outline-none focus:ring focus:ring-gray-400"
                           id="platform"
                         >
-                          <option value="platform1">Platform 1</option>
-                          <option value="platform2">Platform 2</option>
-                          <option value="platform3">Platform 3</option>
+                          <option value="Android">Android</option>
+                          <option value="Web">Web</option>
+                          <option value="Windows">Windows</option>
+                          <option value="iOS">iOS</option>
+                          <option value="Linux">Linux</option>
+                          <option value="Mac">Mac</option>
                         </select>
                         {errors.productPlatform && (
                           <p className="mt-2 text-red-500 text-sm">
@@ -187,7 +219,10 @@ export const ProductForm = () => {
                           Product Name
                         </label>
                         <input
-                          {...register('productName', { required: true })}
+                          {...register('productName', {
+                            required: true,
+                            value: productToEdit?.productName,
+                          })}
                           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                           id="productName"
                           type="text"
@@ -207,7 +242,10 @@ export const ProductForm = () => {
                           Product Long Description
                         </label>
                         <textarea
-                          {...register('longDescription', { required: true })}
+                          {...register('longDescription', {
+                            required: true,
+                            value: productToEdit?.longDescription,
+                          })}
                           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                           id="longDescription"
                           placeholder="Product long description"
@@ -232,9 +270,9 @@ export const ProductForm = () => {
                           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                           id="productType"
                         >
-                          <option value="type1">Type 1</option>
-                          <option value="type2">Type 2</option>
-                          <option value="type3">Type 3</option>
+                          <option value="SaaS">SaaS</option>
+                          <option value="PaaS">PaaS</option>
+                          <option value="IaaS">IaaS</option>
                         </select>
                         {errors.softwareProductType && (
                           <p className="mt-2 text-red-500 text-xs">
@@ -259,7 +297,10 @@ export const ProductForm = () => {
                           Media Link 1
                         </label>
                         <input
-                          {...register('MediaLink1', { required: true })}
+                          {...register('MediaLink1', {
+                            required: true,
+                            value: productToEdit?.MediaLink1,
+                          })}
                           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                           id="mediaLink1"
                           type="text"
@@ -280,7 +321,10 @@ export const ProductForm = () => {
                           Picture Link
                         </label>
                         <input
-                          {...register('picture', { required: true })}
+                          {...register('picture', {
+                            required: true,
+                            value: productToEdit?.picture,
+                          })}
                           className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                           id="pictureLink"
                           type="text"
@@ -304,13 +348,30 @@ export const ProductForm = () => {
         </form>
         {activeSection === 'visualMedia' && (
           <div className="flex justify-center mt-4">
-            <button
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit"
-              onClick={handleSubmit(SaveData)}
-            >
-              Submit
-            </button>
+            {isEditing ? (
+              <>
+                <button
+                  type="submit"
+                  className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded mr-4"
+                  onClick={handleSubmit(SaveData)}
+                >
+                  Save Changes
+                </button>
+                <div className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded">
+                  Cancel
+                </div>
+              </>
+            ) : (
+              <>
+                <button
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  type="submit"
+                  onClick={handleSubmit(SaveData)}
+                >
+                  Submit
+                </button>
+              </>
+            )}
           </div>
         )}
       </div>

@@ -2,12 +2,14 @@ import { CiChat2 } from 'react-icons/ci';
 import { GrEdit } from 'react-icons/gr';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { MdOutlineRestore } from 'react-icons/md';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   setProductInDisabled,
   setProductInEnabled,
 } from '../../Firebase/Functions';
 import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
+import { ProductContext } from '../Contexts';
 
 export const SimpleProductUserView = ({ productInfo }) => {
   const {
@@ -19,7 +21,8 @@ export const SimpleProductUserView = ({ productInfo }) => {
     productCategory,
     enabled,
   } = productInfo;
-
+  const { SetProductToEdit } = useContext(ProductContext);
+  const navigate = useNavigate();
   const [isEnabled, setIsEnabled] = useState(enabled);
 
   const deleteProduct = () => {
@@ -44,6 +47,11 @@ export const SimpleProductUserView = ({ productInfo }) => {
     });
   };
 
+  const updateProduct = () => {
+    SetProductToEdit(productInfo);
+    navigate('../SumbitProduct', { replace: true });
+  };
+
   return (
     <>
       <a>
@@ -59,7 +67,6 @@ export const SimpleProductUserView = ({ productInfo }) => {
               </div>
 
               <div className="flex space-x-2 items-center">
-                <CiChat2 />
                 <h4 className="font-normal">{productPlatform}</h4>
                 <h4 className="font-normal"> • </h4>
                 <h4 className="font-normal">{softwareProductType}</h4>
@@ -78,7 +85,10 @@ export const SimpleProductUserView = ({ productInfo }) => {
                   <AiOutlineDelete />
                 </div>
               </button>
-              <button className="border-l border-indigo-100 px-6 size-16">
+              <button
+                className="border-l border-indigo-100 px-6 size-16"
+                onClick={updateProduct}
+              >
                 <div className="flex flex-col items-center">
                   <GrEdit />
                 </div>

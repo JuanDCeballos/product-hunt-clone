@@ -1,7 +1,7 @@
 import { CiChat2, CiSquareChevUp } from 'react-icons/ci';
 import Modal from './Modal.jsx';
 import { useContext, useState } from 'react';
-import { ProductContext } from '../Contexts/Context/ProductContext.jsx';
+import { ProductContext } from '../Contexts';
 import { toast } from 'sonner';
 import { getCommentsInProduct } from '../../Firebase/Functions';
 
@@ -16,7 +16,8 @@ export const SimpleProductView = ({ productInfo }) => {
     commentsCount,
   } = productInfo;
 
-  const { SetProduct } = useContext(ProductContext);
+  const { SetProductToShowInModal, deleteProdutToShowInModal } =
+    useContext(ProductContext);
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = async () => {
@@ -28,7 +29,7 @@ export const SimpleProductView = ({ productInfo }) => {
           ...productInfo,
           comments: data.comments,
         };
-        SetProduct(productWithComments);
+        SetProductToShowInModal(productWithComments);
         setIsOpen((prevState) => !prevState);
         return 'Comments obainted successfully!';
       },
@@ -36,6 +37,7 @@ export const SimpleProductView = ({ productInfo }) => {
   };
 
   const closeModal = () => {
+    deleteProdutToShowInModal();
     setIsOpen((prevState) => !prevState);
   };
 
