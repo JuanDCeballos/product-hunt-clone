@@ -101,13 +101,13 @@ const ProductView = ({ isOpen, closeModal }) => {
                 <h1 className="font-black text-2xl">{productName}</h1>
                 <h2>{productShortDescription}</h2>
               </div>
-              <div className="sm:flex sm:flex-row sm:gap-4">
+              <div className="sm:flex sm:flex-col sm:gap-4">
                 <div className="flex my-3">
                   <button className="rounded-md border-2 border-neutral-400 mr-3 py-2 px-2 text-black hover:border-orange-400">
                     Visit
                   </button>
-                  <button className="border-4 border-orange-300 rounded-md flex items-center text-center justify-center text-black p-1.5  lg:w-52">
-                    <div>
+                  <button className="border-4 border-orange-300 rounded-md flex items-center text-center justify-center text-black p-1.5  lg:w-80 cursor-default  ">
+                    <div className="flex flex-row justify-center items-center gap-4">
                       <p className="text-sm"> Average rating </p>
                       <ReactStars
                         value={averageRating}
@@ -123,9 +123,6 @@ const ProductView = ({ isOpen, closeModal }) => {
               </div>
             </div>
             <div className="flex flex-col gap-3">
-              <div>
-                <p className="text-slate-500">Free</p>
-              </div>
               <div>
                 <p>{longDescription}</p>
               </div>
