@@ -10,7 +10,6 @@ export const SimpleProductView = ({ productInfo }) => {
     picture,
     productName,
     productShortDescription,
-    ComentsCount,
     productPlatform,
     softwareProductType,
     productCategory,
@@ -59,9 +58,6 @@ export const SimpleProductView = ({ productInfo }) => {
               </div>
 
               <div className="flex space-x-2 items-center">
-                <CiChat2 />
-                <h4 className="font-normal"> {ComentsCount}</h4>
-                <h4 className="font-normal"> • </h4>
                 <h4 className="font-normal">{productPlatform}</h4>
                 <h4 className="font-normal"> • </h4>
                 <h4 className="font-normal">{softwareProductType}</h4>
