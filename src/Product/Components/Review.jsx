@@ -1,23 +1,23 @@
 import ReactStars from 'react-rating-stars-component';
 
-const Review = () => {
+export const Review = ({ comment }) => {
+  const { UserPhotoURL, UserName, Message, Rating, UserDescription } = comment;
+
   return (
     <div>
       <div className="flex gap-2 items-center">
         <div>
           <img
-            src="https://ph-avatars.imgix.net/6982560/original.png?auto=compress&codec=mozjpeg&cs=strip&auto=format&w=40&h=40&fit=crop&dpr=1"
-            className="rounded-full"
+            src={UserPhotoURL ? UserPhotoURL : 'defaultAvatar.svg'}
+            className="w-10 h-10 rounded-full m-4"
           />
         </div>
         <div>
           <div className="flex flex-row gap-2">
-            <a className="text-base font-semibold" href="">
-              John Doe
-            </a>
+            <a className="text-base font-semibold">{UserName}</a>
             <button className="text-xs text-orange-500">Follow</button>
           </div>
-          <p className="text-sm">Founder & Leadership</p>
+          <p className="text-sm">{UserDescription}</p>
         </div>
       </div>
       <div>
@@ -26,17 +26,13 @@ const Review = () => {
             count={5}
             activeColor="#2563eb"
             size={24}
-            value={5}
+            value={Rating}
             edit={false}
           ></ReactStars>
         </div>
-        <p className="text-lg italic font-normal text-slate-500">
-          I use Notion for all my document keeping as of now. Amazing to use.
-        </p>
+        <p className="text-lg italic font-normal text-slate-500">{Message}</p>
       </div>
       <hr className="mt-8" />
     </div>
   );
 };
-
-export default Review;
