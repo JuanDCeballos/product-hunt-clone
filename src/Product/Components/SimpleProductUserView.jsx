@@ -2,13 +2,14 @@ import { CiChat2 } from 'react-icons/ci';
 import { GrEdit } from 'react-icons/gr';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { MdOutlineRestore } from 'react-icons/md';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   setProductInDisabled,
   setProductInEnabled,
 } from '../../Firebase/Functions';
 import { toast } from 'sonner';
 import { useNavigate } from 'react-router-dom';
+import { ProductContext } from '../Contexts';
 
 export const SimpleProductUserView = ({ productInfo }) => {
   const {
@@ -20,9 +21,8 @@ export const SimpleProductUserView = ({ productInfo }) => {
     productCategory,
     enabled,
   } = productInfo;
-
+  const { SetProductToEdit } = useContext(ProductContext);
   const navigate = useNavigate();
-
   const [isEnabled, setIsEnabled] = useState(enabled);
 
   const deleteProduct = () => {
@@ -48,6 +48,7 @@ export const SimpleProductUserView = ({ productInfo }) => {
   };
 
   const updateProduct = () => {
+    SetProductToEdit(productInfo);
     navigate('../SumbitProduct', { replace: true });
   };
 
