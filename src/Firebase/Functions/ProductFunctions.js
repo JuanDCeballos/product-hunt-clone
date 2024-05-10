@@ -7,6 +7,9 @@ import {
   setDoc,
   where,
   query,
+  getCountFromServer,
+  getAggregateFromServer,
+  average,
 } from 'firebase/firestore';
 import { db } from '../Firebase';
 
@@ -16,14 +19,71 @@ export const getProducts = async () => {
     const productsRef = collection(db, 'Productos');
     const querySnapshot = query(productsRef, where('enabled', '==', true));
     const productsResult = await getDocs(querySnapshot);
-    productsResult.forEach((doc) => {
-      JSONtoReturn.push({ id: doc.id, ...doc.data() });
-    });
+
+    for (const doc of productsResult.docs) {
+      const commentsResult = await getCommentsCountInProduct(doc.id);
+      const averageRatingResult = await getAverageRatingInProduct(doc.id);
+
+      JSONtoReturn.push({
+        id: doc.id,
+        ...doc.data(),
+        commentsCount: commentsResult.commentsCount,
+        averageRating: averageRatingResult.averageRating,
+      });
+    }
     return JSONtoReturn;
   } catch (error) {
     return error;
   }
 };
+
+export async function getAverageRatingInProduct(productUID) {
+  try {
+    if (!productUID) throw "ProductUID can't be null.";
+    const commentsCollectionReference = collection(
+      db,
+      `Productos/${productUID}/Comments`
+    );
+    const averageRatingResult = await getAggregateFromServer(
+      commentsCollectionReference,
+      {
+        averageRating: average('Rating'),
+      }
+    );
+    return {
+      ok: true,
+      averageRating: averageRatingResult.data().averageRating,
+    };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
+
+export async function getCommentsInProduct(productUID) {
+  try {
+    if (!productUID) throw "ProductUID can't be null.";
+    const commentsRef = collection(db, `Productos/${productUID}/Comments`);
+    const commentsResult = await getDocs(commentsRef);
+    let JSONToReturn = [];
+    commentsResult.forEach((comment) => {
+      JSONToReturn.push({ id: comment.id, ...comment.data() });
+    });
+    return { ok: true, comments: JSONToReturn };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
+
+export async function getCommentsCountInProduct(productUID) {
+  try {
+    if (!productUID) throw "ProductUID can't be null.";
+    const commentsRef = collection(db, `Productos/${productUID}/Comments`);
+    const commentsResult = await getCountFromServer(commentsRef);
+    return { ok: true, commentsCount: commentsResult.data().count };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
 
 export async function setProductInDisabled(productUID) {
   try {
