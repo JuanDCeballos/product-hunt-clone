@@ -7,8 +7,18 @@ import {
   setDoc,
   where,
   query,
+  getCountFromServer,
 } from 'firebase/firestore';
 import { db } from '../Firebase';
+
+const addCommentsCountToProduct = (product) => {
+  try {
+    const commentscount = getCommentsCountInProduct(product.id);
+    return { ...product, commentscount };
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const getProducts = async () => {
   try {
@@ -16,9 +26,15 @@ export const getProducts = async () => {
     const productsRef = collection(db, 'Productos');
     const querySnapshot = query(productsRef, where('enabled', '==', true));
     const productsResult = await getDocs(querySnapshot);
-    productsResult.forEach((doc) => {
-      JSONtoReturn.push({ id: doc.id, ...doc.data() });
-    });
+
+    for (const doc of productsResult.docs) {
+      const commentsResult = await getCommentsCountInProduct(doc.id);
+      JSONtoReturn.push({
+        id: doc.id,
+        ...doc.data(),
+        commentsCount: commentsResult.commentsCount,
+      });
+    }
     return JSONtoReturn;
   } catch (error) {
     return error;
@@ -35,6 +51,17 @@ export async function getCommentsInProduct(productUID) {
       JSONToReturn.push({ id: comment.id, ...comment.data() });
     });
     return { ok: true, comments: JSONToReturn };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
+
+export async function getCommentsCountInProduct(productUID) {
+  try {
+    if (!productUID) throw "ProductUID can't be null.";
+    const commentsRef = collection(db, `Productos/${productUID}/Comments`);
+    const commentsResult = await getCountFromServer(commentsRef);
+    return { ok: true, commentsCount: commentsResult.data().count };
   } catch (error) {
     return { ok: false, error };
   }
