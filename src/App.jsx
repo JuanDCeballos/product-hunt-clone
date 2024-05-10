@@ -1,28 +1,19 @@
-import { HomePageComponent } from './Home/Components/HomePageComponent';
+import { Toaster } from 'sonner';
 import { Header } from './Home/Components/Header';
-import { Route, Routes } from 'react-router-dom';
-import { ProductForm } from './Product/Components/ProductForm';
-import { UserProfile } from './Users/Components/UserProfile.jsx';
-import { UserProvider } from './Users/Contexts/Providers/UserProvider.jsx';
-import { LogInComponent } from './Login/Components/LogInComponent.jsx';
-import { ProductProvider } from './Product/Contexts/Provider/ProductProvider.jsx';
-import UnderContrusction from './ShareUI/Components/UnderConstruction.jsx';
+import { LogInProvider } from './Login/Context/LogInProvider.jsx';
+import { ProductProvider } from './Product/Contexts';
+import AppRouting from './Routing/AppRouter.jsx';
 
 const App = () => {
   return (
     <>
-      <UserProvider>
+      <Toaster richColors />
+      <LogInProvider>
         <ProductProvider>
           <Header />
-          <Routes>
-            <Route path="*" element={<HomePageComponent />} />
-            <Route path="SumbitProduct" element={<ProductForm />} />
-            <Route path="UserProfile" element={<UserProfile />} />
-            <Route path="LogIn" element={<LogInComponent />} />
-            <Route path="UnderConstruction" element={<UnderContrusction />} />
-          </Routes>
+          <AppRouting />
         </ProductProvider>
-      </UserProvider>
+      </LogInProvider>
     </>
   );
 };

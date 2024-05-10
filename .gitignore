@@ -12,6 +12,10 @@ dist
 dist-ssr
 *.local
 
+firebaseAuth.js
+FirebaseAuth.js
+.env
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
