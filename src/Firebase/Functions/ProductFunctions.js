@@ -64,7 +64,7 @@ export async function getProductById(productUID) {
     if (!document.exists()) throw "Document doesn't exist.";
 
     const product = { id: document.id, ...document.data() };
-    return { Ok: true, product };
+    return { ok: true, product };
   } catch (error) {
     return { ok: false, error };
   }
