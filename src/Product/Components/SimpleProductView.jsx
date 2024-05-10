@@ -10,11 +10,10 @@ export const SimpleProductView = ({ productInfo }) => {
     picture,
     productName,
     productShortDescription,
-    ComentsCount,
     productPlatform,
     softwareProductType,
     productCategory,
-    RatingCount,
+    commentsCount,
   } = productInfo;
 
   const { SetProduct } = useContext(ProductContext);
@@ -59,9 +58,6 @@ export const SimpleProductView = ({ productInfo }) => {
               </div>
 
               <div className="flex space-x-2 items-center">
-                <CiChat2 />
-                <h4 className="font-normal"> {ComentsCount}</h4>
-                <h4 className="font-normal"> • </h4>
                 <h4 className="font-normal">{productPlatform}</h4>
                 <h4 className="font-normal"> • </h4>
                 <h4 className="font-normal">{softwareProductType}</h4>
@@ -74,7 +70,7 @@ export const SimpleProductView = ({ productInfo }) => {
           <button className="border-l border-indigo-100 px-6 size-16">
             <div className="flex flex-col items-center">
               <CiSquareChevUp />
-              {RatingCount}
+              {commentsCount}
             </div>
           </button>
         </div>
