@@ -4,4 +4,5 @@ export const ProductReducerTypes = {
   deleteProductToShowInModal:
     '[ProductReducerTypes] DeleteProductToShowInModal',
   deleteProductToEdit: '[ProductReducerTypes] DeleteProductToEdit',
+  error: '[ProductReducerTypes] Error',
 };
