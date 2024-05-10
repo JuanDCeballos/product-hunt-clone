@@ -43,9 +43,9 @@ const ProductView = ({ isOpen, closeModal }) => {
     picture,
     productName,
     productShortDescription,
-    RatingCount,
     longDescription,
     MediaLink,
+    averageRating,
   } = product;
 
   const onChangeStarsRating = (newRating) => {
@@ -106,8 +106,18 @@ const ProductView = ({ isOpen, closeModal }) => {
                   <button className="rounded-md border-2 border-neutral-400 mr-3 py-2 px-2 text-black hover:border-orange-400">
                     Visit
                   </button>
-                  <button className="bg-red-500 rounded-md flex items-center text-center justify-center text-white p-1.5 hover:bg-red-600 lg:w-52">
-                    <BiSolidUpArrow /> UPVOTE {RatingCount}
+                  <button className="border-4 border-orange-300 rounded-md flex items-center text-center justify-center text-black p-1.5  lg:w-52">
+                    <div>
+                      <p className="text-sm"> Average rating </p>
+                      <ReactStars
+                        value={averageRating}
+                        edit={false}
+                        count={5}
+                        size={34}
+                        activeColor="#ffd700"
+                        isHalf={true}
+                      ></ReactStars>
+                    </div>
                   </button>
                 </div>
               </div>
