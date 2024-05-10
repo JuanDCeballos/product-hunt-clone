@@ -1,23 +1,20 @@
-import { useContext } from 'react';
 import ReactStars from 'react-rating-stars-component';
-import { ProductContext } from '../Contexts/Context/ProductContext';
 
-export const Review = () => {
-  const { product } = useContext(ProductContext);
-  const { UserPhotoURL, UserName, Message, Rating, UserDescription } = product;
-  console.log(product);
+export const Review = ({ comment }) => {
+  const { UserPhotoURL, UserName, Message, Rating, UserDescription } = comment;
 
   return (
     <div>
       <div className="flex gap-2 items-center">
         <div>
-          <img src={UserPhotoURL} className="rounded-full" />
+          <img
+            src={UserPhotoURL ? UserPhotoURL : 'defaultAvatar.svg'}
+            className="w-10 h-10 rounded-full m-4"
+          />
         </div>
         <div>
           <div className="flex flex-row gap-2">
-            <a className="text-base font-semibold" href="">
-              {UserName}
-            </a>
+            <a className="text-base font-semibold">{UserName}</a>
             <button className="text-xs text-orange-500">Follow</button>
           </div>
           <p className="text-sm">{UserDescription}</p>
