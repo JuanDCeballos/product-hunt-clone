@@ -101,6 +101,19 @@ export async function addProduct(product) {
   }
 }
 
+export async function UpdateProduct(product, productUID) {
+  try {
+    if (!productUID) throw "Product UID can't be null.";
+    if (!product) throw "Product can't be null.";
+
+    const productReference = doc(db, `Productos`, productUID);
+    await setDoc(productReference, product, { merge: true });
+    return { ok: true, message: 'product modified successfully!' };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
+
 export async function addCommentInProduct(productUid, comment) {
   try {
     if (!productUid) throw "ProductUID can't be null.";
