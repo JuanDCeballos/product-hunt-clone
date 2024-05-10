@@ -9,7 +9,6 @@ import {
 import { AuthTypes } from './Types';
 import { singOutCurrent, GetUser } from '../../Firebase/Functions';
 import { ProviderTypes } from '../../Firebase/Helpers';
-import { IoPlayForwardCircleSharp } from 'react-icons/io5';
 
 const initialState = { logged: false };
 
