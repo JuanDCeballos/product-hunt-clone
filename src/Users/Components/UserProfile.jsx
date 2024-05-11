@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import { UpdateUser } from '../../Firebase/Functions';
 import { UserProductListComponent } from '../../Product/Components/UserProductListComponent';
 import { UserProfileViewTypes } from '../Helpers';
-import { SimpleUserProfile } from './SimpleUserProfilex';
+import { SimpleUserProfile } from './SimpleFollowerUserProfilex';
 
 export const UserProfile = () => {
   const [showProducts, setShowProducts] = useState(false);
