@@ -1,5 +1,6 @@
 import { db } from '../Firebase';
 import {
+  addDoc,
   collection,
   doc,
   getDoc,
@@ -34,7 +35,48 @@ export async function GetUser(userUID, provider) {
     return { ok: false, error };
   }
 }
+export async function FollowUser(
+  userUID,
+  provider,
+  userToFollowUID,
+  userToFollowProvider,
+  follorwerData,
+  followedData
+) {
+  try {
+    if (!follorwerData) throw "follorwerData can't be null.";
+    if (!followedData) throw "followedData can't be null.";
+    if (!userToFollowUID) throw "user to follow UID can't be null.";
+    if (!userUID) throw "userUID can't be null.";
+    if (!provider) throw "Provider can't be null";
 
+    const userToFollowCollectionReference = collection(
+      db,
+      `Usuarios ${userToFollowProvider}/${userUID}/Followers Users`
+    );
+
+    await setDoc(userToFollowCollectionReference, follorwerData);
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
+export async function UnFollowUser(documentUID, userUID, provider) {
+  try {
+    if (!documentUID) throw "DocumentUID can't be null.";
+    if (!userUID) throw "userUID can't be null.";
+    if (!provider) throw "Provider can't be null";
+
+    const documentReference = doc(
+      db,
+      `Usuarios ${provider}/${userUID}/Followed Users`,
+      documentUID
+    );
+    await setDoc(documentReference, { enable: false }, { merge: true });
+    return { ok: true, message: 'User unfollowed!' };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
 export async function GetFollowedUsers(userUID, provider) {
   try {
     if (!userUID) throw "UserUID can't be null.";
