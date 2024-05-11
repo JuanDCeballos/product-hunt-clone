@@ -5,10 +5,10 @@ import { toast } from 'sonner';
 import { UpdateUser } from '../../Firebase/Functions';
 import { UserProductListComponent } from '../../Product/Components/UserProductListComponent';
 import { UserProfileViewTypes } from '../Helpers';
-import { SimpleUserProfile } from './SimpleFollowerUserProfilex';
+import { FollowedUsersListComponent } from './FollowedUsersListComponent';
+import { FollowerUsersList } from './FollowerUsersList';
 
 export const UserProfile = () => {
-  const [showProducts, setShowProducts] = useState(false);
   const { user, provider, updateCurrentUserInfo } = useContext(LogInContext);
 
   const textAreaRef = useRef();
@@ -195,10 +195,10 @@ export const UserProfile = () => {
           </>
         );
       case UserProfileViewTypes.Followers:
-        return <SimpleUserProfile />;
+        return <FollowerUsersList />;
 
       case UserProfileViewTypes.Following:
-        return <SimpleUserProfile />;
+        return <FollowedUsersListComponent />;
 
       case UserProfileViewTypes.Products:
         return <UserProductListComponent />;
