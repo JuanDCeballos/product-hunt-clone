@@ -30,8 +30,9 @@ export const FollowerUsersList = () => {
           <div className="flex flex-row space-x-6 ">
             <h4 className="font-semibold"> Followers </h4>
           </div>
-          <div className="border-b border-indigo-100 px-6"></div>
         </div>
+
+        <div className="w-full border-b border-indigo-100 px-6"></div>
 
         <div className="flex flex-col space-y-8">
           {followers | (followers.length > 0) ? (
