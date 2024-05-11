@@ -1,5 +1,13 @@
 import { db } from '../Firebase';
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  getDoc,
+  getDocs,
+  query,
+  setDoc,
+  where,
+} from 'firebase/firestore';
 
 export async function UpdateUser(userIUD, userModified, provider) {
   try {
@@ -22,6 +30,55 @@ export async function GetUser(userUID, provider) {
     const documentResult = await getDoc(userReference);
 
     return { ok: true, user: documentResult.data() };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
+
+export async function GetFollowedUsers(userUID, provider) {
+  try {
+    if (!userUID) throw "UserUID can't be null.";
+    if (!provider) throw "Provider type can't be null.";
+    const collectionReference = collection(
+      db,
+      `Usuarios ${provider}/${userUID}/Followed Users`
+    );
+    const querySnapshot = query(
+      collectionReference,
+      where('enable', '==', true)
+    );
+    const queryResult = await getDocs(querySnapshot);
+    let followedUsers = [];
+    queryResult.forEach((doc) => {
+      followedUsers.push({ id: doc.id, ...doc.data() });
+    });
+    return { ok: true, users: followedUsers };
+  } catch (error) {
+    return { ok: false, error };
+  }
+}
+
+export async function GetFollowers(userUID, provider) {
+  try {
+    if (!userUID) throw "UserUID can't be null.";
+    if (!provider) throw "Provider type can't be null.";
+    const collectionReference = collection(
+      db,
+      `Usuarios ${provider}/${userUID}/Followers Users`
+    );
+    const querySnapshot = query(
+      collectionReference,
+      where('enable', '==', true)
+    );
+    const queryResult = await getDocs(querySnapshot);
+    let followedUsers = [];
+    queryResult.forEach((doc) => {
+      followedUsers.push({ id: doc.id, ...doc.data() });
+    });
+
+    if (followedUsers.length === 0) followedUsers = [];
+
+    return { ok: true, users: followedUsers };
   } catch (error) {
     return { ok: false, error };
   }
