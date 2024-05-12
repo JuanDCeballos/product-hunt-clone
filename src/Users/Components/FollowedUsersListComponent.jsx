@@ -25,14 +25,24 @@ export const FollowedUsersListComponent = () => {
   }, []);
 
   const onUnfolowClicked = (followedUser) => {
-    toast.promise(UnFollowUser(followedUser.id, user.uid, user.provider), {
-      loading: 'Unfollow user...',
-      error: 'An error ocurred while trying to unfollow user.',
-      success: () => {
-        setFollowedUsers(followedUsers.filter((U) => U.id != followedUser.id));
-        return 'User unfollowed!';
-      },
-    });
+    toast.promise(
+      UnFollowUser(
+        user.uid,
+        user.provider,
+        followedUser.UserID,
+        followedUser.provider
+      ),
+      {
+        loading: 'Unfollow user...',
+        error: 'An error ocurred while trying to unfollow user.',
+        success: () => {
+          setFollowedUsers(
+            followedUsers.filter((U) => U.id != followedUser.id)
+          );
+          return 'User unfollowed!';
+        },
+      }
+    );
   };
 
   return (
@@ -46,22 +56,24 @@ export const FollowedUsersListComponent = () => {
         <div className="w-full border-b border-indigo-100 px-6"></div>
         <div className="flex flex-col space-y-8">
           {followedUsers | (followedUsers.length > 0) ? (
-            <div className="flex flex-row place-content-between">
+            <div className="flex flex-col place-content-between">
               {followedUsers.map((followedUser) => (
                 <>
-                  <SimpleUserProfileView
-                    key={followedUser.id}
-                    user={followedUser}
-                  />
-                  <button
-                    className="mr-10 text-orange-500 hover:text-orange-300"
-                    onClick={() => onUnfolowClicked(followedUser)}
-                  >
-                    <div className="flex flex-row items-center content-center">
-                      <RiUserUnfollowLine className="mr-2" />
-                      Unfollow
-                    </div>
-                  </button>
+                  <div className="flex flex-row place-content-between">
+                    <SimpleUserProfileView
+                      key={followedUser.id}
+                      user={followedUser}
+                    />
+                    <button
+                      className="mr-10 text-orange-500 hover:text-orange-300"
+                      onClick={() => onUnfolowClicked(followedUser)}
+                    >
+                      <div className="flex flex-row items-center content-center">
+                        <RiUserUnfollowLine className="mr-2" />
+                        Unfollow
+                      </div>
+                    </button>
+                  </div>
                 </>
               ))}
             </div>
