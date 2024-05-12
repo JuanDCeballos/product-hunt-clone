@@ -46,7 +46,9 @@ export async function SingInWithGoogle() {
       const resultCreateUser = await CreateNewUser(
         result.user.uid,
         new Date().toLocaleDateString(),
-        ProviderTypes.GoogleProvider
+        ProviderTypes.GoogleProvider,
+        result.user.displayName,
+        result.user.photoURL
       );
 
       if (!resultCreateUser.ok) throw resultCreateUser.message;
@@ -75,7 +77,9 @@ export async function SingInWithGitHub() {
       const resultCreateUser = await CreateNewUser(
         result.user.uid,
         new Date().toLocaleDateString(),
-        ProviderTypes.GitHubProvider
+        ProviderTypes.GitHubProvider,
+        user.reloadUserInfo.screenName,
+        result.user.photoURL
       );
 
       if (!resultCreateUser.ok) throw resultCreateUser.message;
