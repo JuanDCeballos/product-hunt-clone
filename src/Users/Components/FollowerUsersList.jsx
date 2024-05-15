@@ -40,17 +40,12 @@ export const FollowerUsersList = () => {
               <SimpleUserProfileView key={user.id} user={user} />
             ))
           ) : !gettingData ? (
-            <div
-              className="flex flex-col cursor-pointer"
-              onClick={() => {
-                navigate('/Community', { replace: true });
-              }}
-            >
+            <div className="flex flex-col">
               <div className="flex flex-col justify-center items-center space-y-2">
-                <p className="font-black text-2xl">
-                  You does not have followers
+                <p className="font-black text-2xl cursor-default">
+                  You don't have followers
                 </p>
-                <p className="font-black text-base">
+                <p className="font-black text-base cursor-default">
                   Work hard to get your first follower!
                 </p>
                 <img src="NoFollowers.svg" className="size-48" />
