@@ -56,7 +56,6 @@ export async function GetUsersList(currentUserUID, userProvider) {
     const gitHubUsersResult = await getDocs(gitHubCollectionRefernce);
     const googleUsersResult = await getDocs(googleCollectionReference);
     let users = [];
-    console.log(followedUsers.includes('G9iEyIUyA7fOZq3tyDlXNcRKPrl2'));
     gitHubUsersResult.forEach((user) => {
       if (user.id != currentUserUID) {
         users.push({
