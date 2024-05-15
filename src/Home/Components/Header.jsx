@@ -81,10 +81,7 @@ export const Header = () => {
               </Link>
             </li>
             <li>
-              <Link
-                to="UnderConstruction"
-                className="text-white hover:text-gray-300"
-              >
+              <Link to="Community" className="text-white hover:text-gray-300">
                 Community
               </Link>
             </li>

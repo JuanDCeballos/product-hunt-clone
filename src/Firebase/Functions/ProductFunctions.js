@@ -12,13 +12,15 @@ import {
   average,
 } from 'firebase/firestore';
 import { db } from '../Firebase';
+import { GetFollowedUsersUID } from './UsersFunctions';
 
-export const getProducts = async () => {
+export const getProducts = async (userUID, userProvider) => {
   try {
     let JSONtoReturn = [];
     const productsRef = collection(db, 'Productos');
     const querySnapshot = query(productsRef, where('enabled', '==', true));
     const productsResult = await getDocs(querySnapshot);
+    const { followedUsers } = await GetFollowedUsersUID(userUID, userProvider);
 
     for (const doc of productsResult.docs) {
       const commentsResult = await getCommentsCountInProduct(doc.id);
@@ -29,8 +31,16 @@ export const getProducts = async () => {
         ...doc.data(),
         commentsCount: commentsResult.commentsCount,
         averageRating: averageRatingResult.averageRating,
+        isMadeByAFollwedUser: followedUsers?.includes(doc.data().createdBy),
       });
     }
+    JSONtoReturn.sort(function (x, y) {
+      return x.isMadeByAFollwedUser === y.isMadeByAFollwedUser
+        ? 0
+        : x.isMadeByAFollwedUser
+        ? -1
+        : 1;
+    });
     return JSONtoReturn;
   } catch (error) {
     return error;

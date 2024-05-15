@@ -1,22 +1,6 @@
 import { SimpleProductView } from './SimpleProductView.jsx';
-import { getProducts } from '../../Firebase/Functions';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
 
-export const ProductListComponent = ({ Title }) => {
-  const [products, setProducts] = useState([]);
-
-  useEffect(() => {
-    toast.promise(getProducts(), {
-      loading: 'Getting products...',
-      error: 'An error ocurred while trying to get products',
-      success: (products) => {
-        setProducts(products);
-        return 'Products loaded successfully!';
-      },
-    });
-  }, []);
-
+export const ProductListComponent = ({ Title, productsList }) => {
   return (
     <>
       <div className="flex flex-col space-y-8 ">
@@ -32,7 +16,7 @@ export const ProductListComponent = ({ Title }) => {
         </div>
 
         <div className="flex flex-col space-y-8">
-          {products.map((Product) => (
+          {productsList?.map((Product) => (
             <SimpleProductView key={Product.id} productInfo={Product} />
           ))}
         </div>
