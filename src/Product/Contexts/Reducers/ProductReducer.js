@@ -34,6 +34,21 @@ export const ProductReducer = (state = {}, action) => {
         errorMessage: action.payload,
       };
 
+    case ProductReducerTypes.addFilters:
+      return {
+        ...state,
+        categories: action.payload.categories,
+        platform: action.payload.platform,
+        productType: action.payload.productType,
+      };
+
+    case ProductReducerTypes.cleanFilters:
+      return {
+        ...state,
+        categories: undefined,
+        platform: undefined,
+        productType: undefined,
+      };
     default:
       return state;
   }
