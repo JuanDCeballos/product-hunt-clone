@@ -76,6 +76,27 @@ export const ProductProvider = ({ children }) => {
     }
   }
 
+  const addFilter = (categories, platform, productType) => {
+    try {
+      if (!categories && !platform && !productType)
+        throw "filters can't be null.";
+      dispatch({
+        type: ProductReducerTypes.addFilters,
+        payload: {
+          categories,
+          platform,
+          productType,
+        },
+      });
+    } catch (error) {
+      dispatch({ type: ProductReducerTypes.error, payload: error });
+    }
+  };
+
+  const cleanFilter = () => {
+    dispatch({ type: ProductReducerTypes.cleanFilters });
+  };
+
   return (
     <>
       <ProductContext.Provider
@@ -85,6 +106,8 @@ export const ProductProvider = ({ children }) => {
           deleteProdutToEdit,
           SetProductToShowInModal,
           SetProductToEdit,
+          addFilter,
+          cleanFilter,
         }}
       >
         {children}
