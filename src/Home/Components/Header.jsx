@@ -2,15 +2,21 @@ import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { LogInContext } from '../../Login/Context/LogInContext.jsx';
 import { VscSignOut } from 'react-icons/vsc';
+import { ProductContext } from '../../Product/Contexts/ProductContext.jsx';
 
 export const Header = () => {
   const { user, logged, logOut } = useContext(LogInContext);
+  const { deleteProdutToEdit } = useContext(ProductContext);
 
   const navigate = useNavigate();
 
   const onClickLogOut = async () => {
     await logOut();
     navigate('/', { replace: true });
+  };
+
+  const onSubmitClick = () => {
+    deleteProdutToEdit();
   };
 
   return (
@@ -111,7 +117,10 @@ export const Header = () => {
             ) : (
               <>
                 <Link to="SumbitProduct">
-                  <button className="text-white transition ease-in-out delay-150 bg-red-500 hover:-translate-y-1 hover:scale-110  duration-300 w-32 h-8 rounded-lg">
+                  <button
+                    onClick={onSubmitClick}
+                    className="text-white transition ease-in-out delay-150 bg-red-500 hover:-translate-y-1 hover:scale-110  duration-300 w-32 h-8 rounded-lg"
+                  >
                     Submit
                   </button>
                 </Link>
