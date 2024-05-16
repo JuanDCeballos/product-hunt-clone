@@ -3,19 +3,23 @@ import { ProductListComponent } from '../../Product/Components/ProductListCompon
 import { toast } from 'sonner';
 import { getProducts } from '../../Firebase/Functions';
 import { LogInContext } from '../../Login/Context/LogInContext';
+import { ProductContext } from '../../Product/Contexts';
 
 export const ProductsFeedComponent = () => {
+  const { isGettingData, setIsGettingDataTrue, setIsGettingDataFalse } =
+    useContext(ProductContext);
+
   const { user } = useContext(LogInContext);
   const [products, setProducts] = useState([]);
-  const [isGettingData, setIsGettingData] = useState(true);
 
   useEffect(() => {
+    setIsGettingDataTrue();
     toast.promise(getProducts(user?.uid, user?.provider), {
       loading: 'Getting products...',
       error: 'An error ocurred while trying to get products',
       success: (products) => {
         setProducts(products);
-        setIsGettingData(false);
+        setIsGettingDataFalse();
         return 'Products loaded successfully!';
       },
     });
