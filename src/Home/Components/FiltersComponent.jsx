@@ -1,20 +1,44 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import Select from 'react-dropdown-select';
 import {
   categoryOptions,
   platformOptions,
   productTypeOptions,
 } from '../helpers/const';
+import { ProductContext } from '../../Product/Contexts';
 
 export const FiltersComponent = () => {
-  const [category, setCategory] = useState({});
-  const [platform, setPlatform] = useState({});
-  const [productType, setProductType] = useState({});
+  const { addFilter, cleanFilter } = useContext(ProductContext);
 
-  const printValues = () => {
-    console.log(category.name);
-    console.log(platform.name);
-    console.log(productType.name);
+  const [category, setCategory] = useState([]);
+  const [platform, setPlatform] = useState([]);
+  const [productType, setProductType] = useState([]);
+
+  const setFilters = () => {
+    if (!category && !platform && !productType) {
+      cleanFilter();
+      return;
+    }
+
+    addFilter(getNames(category), getNames(platform), getNames(productType));
+  };
+
+  const clearFilters = () => {
+    setCategory([]);
+    setPlatform([]);
+    setProductType([]);
+
+    cleanFilter();
+  };
+
+  const getNames = (data) => {
+    if (data.length <= 0 || data == {}) {
+      return [];
+    }
+
+    const result = [];
+    data?.forEach((obj) => result.push(obj.name));
+    return result;
   };
 
   return (
@@ -51,9 +75,15 @@ export const FiltersComponent = () => {
 
       <button
         className="w-full text-white transition ease-in-out delay-150 bg-red-500 hover:-translate-y-1 hover:scale-90  duration-300 h-8 rounded-lg mt-3"
-        onClick={printValues}
+        onClick={setFilters}
       >
         Aply filters
+      </button>
+      <button
+        className="w-full text-white transition ease-in-out delay-150 bg-red-500 hover:-translate-y-1 hover:scale-90  duration-300 h-8 rounded-lg mt-3"
+        onClick={clearFilters}
+      >
+        Clear filters
       </button>
     </div>
   );
