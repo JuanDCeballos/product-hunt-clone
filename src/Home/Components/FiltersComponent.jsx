@@ -8,7 +8,7 @@ import {
 import { ProductContext } from '../../Product/Contexts';
 
 export const FiltersComponent = () => {
-  const { addFilter, cleanFilter } = useContext(ProductContext);
+  const { addFilter, cleanFilter, isGettingData } = useContext(ProductContext);
 
   const [category, setCategory] = useState([]);
   const [platform, setPlatform] = useState([]);
@@ -31,6 +31,13 @@ export const FiltersComponent = () => {
     cleanFilter();
   };
 
+  const getButtonStyleByIsGettingData = (isGettingData) => {
+    if (!isGettingData) {
+      return 'w-full text-white transition ease-in-out delay-150 bg-red-500 hover:-translate-y-1 hover:scale-90  duration-300 h-8 rounded-lg mt-3';
+    }
+    return 'w-full text-white transition ease-in-out delay-150 bg-red-100 h-8 rounded-lg mt-3';
+  };
+
   const getNames = (data) => {
     if (data.length <= 0 || data == {}) {
       return [];
@@ -51,6 +58,8 @@ export const FiltersComponent = () => {
         color="#FEA34D"
         multi
         onChange={(val) => setCategory(val)}
+        values={category}
+        disabled={isGettingData}
       />
 
       <h1>Platform</h1>
@@ -61,6 +70,8 @@ export const FiltersComponent = () => {
         color="#FEA34D"
         multi
         onChange={(val) => setPlatform(val)}
+        values={platform}
+        disabled={isGettingData}
       />
 
       <h1>Product Type</h1>
@@ -71,17 +82,21 @@ export const FiltersComponent = () => {
         color="#FEA34D"
         multi
         onChange={(val) => setProductType(val)}
+        values={productType}
+        disabled={isGettingData}
       />
 
       <button
-        className="w-full text-white transition ease-in-out delay-150 bg-red-500 hover:-translate-y-1 hover:scale-90  duration-300 h-8 rounded-lg mt-3"
+        className={getButtonStyleByIsGettingData(isGettingData)}
         onClick={setFilters}
+        disabled={isGettingData}
       >
         Aply filters
       </button>
       <button
-        className="w-full text-white transition ease-in-out delay-150 bg-red-500 hover:-translate-y-1 hover:scale-90  duration-300 h-8 rounded-lg mt-3"
+        className={getButtonStyleByIsGettingData(isGettingData)}
         onClick={clearFilters}
+        disabled={isGettingData}
       >
         Clear filters
       </button>
