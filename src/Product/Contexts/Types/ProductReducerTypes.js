@@ -7,4 +7,5 @@ export const ProductReducerTypes = {
   error: '[ProductReducerTypes] Error',
   addFilters: '[ProductReducerTypes] AddFilters',
   cleanFilters: '[ProductReducerTypes] CleanFilters',
+  setIsGettingData: '[ProductReducerTypes] SetIsGettingData',
 };
