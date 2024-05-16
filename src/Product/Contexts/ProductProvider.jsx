@@ -97,6 +97,14 @@ export const ProductProvider = ({ children }) => {
     dispatch({ type: ProductReducerTypes.cleanFilters });
   };
 
+  const setIsGettingDataTrue = () => {
+    dispatch({ type: ProductReducerTypes.setIsGettingData, payload: true });
+  };
+
+  const setIsGettingDataFalse = () => {
+    dispatch({ type: ProductReducerTypes.setIsGettingData, payload: false });
+  };
+
   return (
     <>
       <ProductContext.Provider
@@ -108,6 +116,8 @@ export const ProductProvider = ({ children }) => {
           SetProductToEdit,
           addFilter,
           cleanFilter,
+          setIsGettingDataTrue,
+          setIsGettingDataFalse,
         }}
       >
         {children}
