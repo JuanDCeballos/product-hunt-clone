@@ -1,4 +1,3 @@
-import { TopLaunches } from '../../Home/Components/TopLaunches.jsx';
 import { RelatedTopicsComponent } from './RelatedTopicsComponent.jsx';
 import { ProductsFeedComponent } from './ProductsFeedComponent.jsx';
 import { FiltersComponent } from './FiltersComponent.jsx';
