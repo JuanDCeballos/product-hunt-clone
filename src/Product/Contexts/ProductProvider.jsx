@@ -2,7 +2,6 @@ import { useReducer } from 'react';
 import { ProductContext } from './ProductContext.jsx';
 import { ProductReducer } from './Reducers';
 import { ProductReducerTypes } from './Types';
-import { getProductById } from '../../Firebase/Functions';
 
 const initialState = {
   productToShowInModal: undefined,
@@ -36,6 +35,13 @@ export const ProductProvider = ({ children }) => {
       dispatch({ type: ProductReducerTypes.error, payload: error });
       return;
     }
+  }
+
+  function setProductsList(productsLists) {
+    dispatch({
+      type: ProductReducerTypes.setProductsList,
+      payload: productsLists,
+    });
   }
 
   async function deleteProdutToEdit() {
@@ -118,6 +124,7 @@ export const ProductProvider = ({ children }) => {
           cleanFilter,
           setIsGettingDataTrue,
           setIsGettingDataFalse,
+          setProductsList,
         }}
       >
         {children}
