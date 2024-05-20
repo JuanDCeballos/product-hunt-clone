@@ -5,11 +5,13 @@ import { LogInContext } from '../../Login/Context';
 
 export const UserProductListComponent = () => {
   const [products, setProducts] = useState([]);
+  const [isGettingData, setIsGettingData] = useState(true);
   const { user } = useContext(LogInContext);
 
   useEffect(() => {
     getProductsCreatedByUserUID(user.uid).then((result) => {
       setProducts(result.products);
+      setIsGettingData(false);
     });
   }, []);
 
@@ -24,11 +26,26 @@ export const UserProductListComponent = () => {
           <div className="border-b border-indigo-100 px-6"></div>
         </div>
 
-        <div className="flex flex-col space-y-8">
-          {products.map((Product) => (
-            <SimpleProductUserView key={Product.id} productInfo={Product} />
-          ))}
-        </div>
+        {products?.length > 0 ? (
+          <>
+            <div className="flex flex-col space-y-8">
+              {products.map((Product) => (
+                <SimpleProductUserView key={Product.id} productInfo={Product} />
+              ))}
+            </div>
+          </>
+        ) : !isGettingData ? (
+          <>
+            <div className="flex flex-col justify-center items-center mt-4">
+              <p className="font-black text-2xl">
+                You don't have products yet, sumbit one!
+              </p>
+              <img src="NoProducts.svg" className="size-48" />
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );

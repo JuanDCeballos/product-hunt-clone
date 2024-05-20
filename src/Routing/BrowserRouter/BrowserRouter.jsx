@@ -14,6 +14,7 @@ const BrowserRouter = [
       { path: 'UserProfile' },
       { path: 'LogIn' },
       { path: 'UnderConstruction' },
+      { path: 'Community' },
     ],
   },
 ];

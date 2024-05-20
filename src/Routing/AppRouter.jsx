@@ -3,9 +3,10 @@ import { ProductForm } from '../Product/Components/ProductForm';
 import { UserProfile } from '../Users/Components/UserProfile.jsx';
 import { LogInComponent } from '../Login/Components/LogInComponent.jsx';
 import UnderContrusction from '../ShareUI/Components/UnderConstruction.jsx';
-import { Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import PrivateRouter from './PrivateRouter.jsx';
 import PublicRouter from './PublicRouter.jsx';
+import { UserListComponent } from '../Users/Components';
 
 const AppRouting = () => {
   return (
@@ -34,6 +35,15 @@ const AppRouting = () => {
           <PublicRouter>
             <LogInComponent />
           </PublicRouter>
+        }
+      />
+
+      <Route
+        path="Community"
+        element={
+          <PrivateRouter>
+            <UserListComponent />
+          </PrivateRouter>
         }
       />
       <Route path="UnderConstruction" element={<UnderContrusction />} />

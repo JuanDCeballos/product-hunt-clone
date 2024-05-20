@@ -1,21 +1,36 @@
+import { useContext, useEffect, useState } from 'react';
 import { SimpleProductView } from './SimpleProductView.jsx';
-import { getProducts } from '../../Firebase/Functions';
-import { useEffect, useState } from 'react';
-import { toast } from 'sonner';
+import { ProductContext } from '../Contexts/ProductContext.jsx';
 
-export const ProductListComponent = ({ Title }) => {
-  const [products, setProducts] = useState([]);
+export const ProductListComponent = ({ Title, productsList }) => {
+  const { categories, platforms, productTypes } = useContext(ProductContext);
+
+  const [originalList, setOriginalList] = useState(productsList);
+  const [productsFiltered, setProductsFiltered] = useState([]);
 
   useEffect(() => {
-    toast.promise(getProducts(), {
-      loading: 'Getting products...',
-      error: 'An error ocurred while trying to get products',
-      success: (products) => {
-        setProducts(products);
-        return 'Products loaded successfully!';
-      },
-    });
-  }, []);
+    let filteredList = originalList;
+
+    if (categories !== undefined && categories.length >= 1) {
+      filteredList = filteredList.filter((product) =>
+        categories.includes(product.Category)
+      );
+    }
+
+    if (platforms !== undefined && platforms.length >= 1) {
+      filteredList = filteredList.filter((product) =>
+        platforms.includes(product.productPlatform)
+      );
+    }
+
+    if (productTypes !== undefined && productTypes.length >= 1) {
+      filteredList = filteredList.filter((product) =>
+        productTypes.includes(product.softwareProductType)
+      );
+    }
+
+    setProductsFiltered(filteredList);
+  }, [categories, platforms, productTypes]);
 
   return (
     <>
@@ -32,9 +47,22 @@ export const ProductListComponent = ({ Title }) => {
         </div>
 
         <div className="flex flex-col space-y-8">
-          {products.map((Product) => (
-            <SimpleProductView key={Product.id} productInfo={Product} />
-          ))}
+          {productsFiltered !== undefined && productsFiltered.length >= 1 ? (
+            <>
+              {productsFiltered?.map((Product) => (
+                <SimpleProductView key={Product.id} productInfo={Product} />
+              ))}
+            </>
+          ) : (
+            <>
+              <div className="flex flex-col justify-center items-center mt-4">
+                <p className="font-black text-2xl">
+                  We don't have products with this filter!
+                </p>
+                <img src="NoProducts.svg" className="size-48" />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </>
