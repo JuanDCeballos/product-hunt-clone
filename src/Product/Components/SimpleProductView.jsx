@@ -3,7 +3,7 @@ import Modal from './Modal.jsx';
 import { useContext, useState } from 'react';
 import { ProductContext } from '../Contexts';
 import { toast } from 'sonner';
-import { getCommentsInProduct } from '../../Firebase/Functions';
+import { getProductDataToShowInModal } from '../../Firebase/Functions';
 import { FaUserFriends } from 'react-icons/fa';
 
 export const SimpleProductView = ({ productInfo }) => {
@@ -23,13 +23,14 @@ export const SimpleProductView = ({ productInfo }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = async () => {
-    toast.promise(getCommentsInProduct(productInfo.id), {
+    toast.promise(getProductDataToShowInModal(productInfo.id), {
       loading: 'Getting comments...',
       error: 'An error ocurred while trying product comments.',
       success: (data) => {
         const productWithComments = {
           ...productInfo,
           comments: data.comments,
+          averageRating: data.averageRating,
         };
         SetProductToShowInModal(productWithComments);
         setIsOpen((prevState) => !prevState);
