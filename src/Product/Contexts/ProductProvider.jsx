@@ -2,7 +2,6 @@ import { useReducer } from 'react';
 import { ProductContext } from './ProductContext.jsx';
 import { ProductReducer } from './Reducers';
 import { ProductReducerTypes } from './Types';
-import { getProductById } from '../../Firebase/Functions';
 
 const initialState = {
   productToShowInModal: undefined,
@@ -36,6 +35,13 @@ export const ProductProvider = ({ children }) => {
       dispatch({ type: ProductReducerTypes.error, payload: error });
       return;
     }
+  }
+
+  function setProductsList(productsLists) {
+    dispatch({
+      type: ProductReducerTypes.setProductsList,
+      payload: productsLists,
+    });
   }
 
   async function deleteProdutToEdit() {
@@ -76,6 +82,35 @@ export const ProductProvider = ({ children }) => {
     }
   }
 
+  const addFilter = (categories, platform, productType) => {
+    try {
+      if (!categories && !platform && !productType)
+        throw "filters can't be null.";
+      dispatch({
+        type: ProductReducerTypes.addFilters,
+        payload: {
+          categories,
+          platform,
+          productType,
+        },
+      });
+    } catch (error) {
+      dispatch({ type: ProductReducerTypes.error, payload: error });
+    }
+  };
+
+  const cleanFilter = () => {
+    dispatch({ type: ProductReducerTypes.cleanFilters });
+  };
+
+  const setIsGettingDataTrue = () => {
+    dispatch({ type: ProductReducerTypes.setIsGettingData, payload: true });
+  };
+
+  const setIsGettingDataFalse = () => {
+    dispatch({ type: ProductReducerTypes.setIsGettingData, payload: false });
+  };
+
   return (
     <>
       <ProductContext.Provider
@@ -85,6 +120,11 @@ export const ProductProvider = ({ children }) => {
           deleteProdutToEdit,
           SetProductToShowInModal,
           SetProductToEdit,
+          addFilter,
+          cleanFilter,
+          setIsGettingDataTrue,
+          setIsGettingDataFalse,
+          setProductsList,
         }}
       >
         {children}

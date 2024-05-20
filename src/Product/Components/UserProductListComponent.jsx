@@ -26,7 +26,7 @@ export const UserProductListComponent = () => {
           <div className="border-b border-indigo-100 px-6"></div>
         </div>
 
-        {products & (products.length > 0) ? (
+        {products?.length > 0 ? (
           <>
             <div className="flex flex-col space-y-8">
               {products.map((Product) => (

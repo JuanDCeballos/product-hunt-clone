@@ -14,7 +14,7 @@ export const FollowedUsersListComponent = () => {
 
   useEffect(() => {
     toast.promise(GetFollowedUsers(user.uid, user.provider), {
-      loading: 'Obteniendo usuarios seguidos...',
+      loading: 'Get followed users...',
       error: 'An error ocurred while trying to get followed users.',
       success: (data) => {
         setFollowedUsers(data.users);

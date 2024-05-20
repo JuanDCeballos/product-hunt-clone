@@ -25,6 +25,7 @@ export const Review = ({ comment }) => {
           <ReactStars
             count={5}
             activeColor="#2563eb"
+            isHalf={true}
             size={24}
             value={Rating}
             edit={false}

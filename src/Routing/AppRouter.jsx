@@ -20,7 +20,6 @@ const AppRouting = () => {
           </PrivateRouter>
         }
       />
-      <Route path="Community" element={<UserListComponent />} />
 
       <Route
         path="UserProfile"
@@ -36,6 +35,15 @@ const AppRouting = () => {
           <PublicRouter>
             <LogInComponent />
           </PublicRouter>
+        }
+      />
+
+      <Route
+        path="Community"
+        element={
+          <PrivateRouter>
+            <UserListComponent />
+          </PrivateRouter>
         }
       />
       <Route path="UnderConstruction" element={<UnderContrusction />} />
