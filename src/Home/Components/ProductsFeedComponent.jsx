@@ -6,11 +6,15 @@ import { LogInContext } from '../../Login/Context/LogInContext';
 import { ProductContext } from '../../Product/Contexts';
 
 export const ProductsFeedComponent = () => {
-  const { isGettingData, setIsGettingDataTrue, setIsGettingDataFalse } =
-    useContext(ProductContext);
+  const {
+    isGettingData,
+    setIsGettingDataTrue,
+    setIsGettingDataFalse,
+    setProductsList,
+    productsList,
+  } = useContext(ProductContext);
 
   const { user } = useContext(LogInContext);
-  const [products, setProducts] = useState([]);
 
   useEffect(() => {
     setIsGettingDataTrue();
@@ -18,7 +22,7 @@ export const ProductsFeedComponent = () => {
       loading: 'Getting products...',
       error: 'An error ocurred while trying to get products',
       success: (products) => {
-        setProducts(products);
+        setProductsList(products);
         setIsGettingDataFalse();
         return 'Products loaded successfully!';
       },
@@ -27,23 +31,23 @@ export const ProductsFeedComponent = () => {
 
   return (
     <>
-      {products && isGettingData === false ? (
+      {productsList && isGettingData === false ? (
         <>
           <ProductListComponent
             Title="Top Products Launching Today"
-            productsList={products}
+            productsList={productsList}
           />
           <ProductListComponent
             Title="Yesterday's Top Products"
-            productsList={products}
+            productsList={productsList}
           />
           <ProductListComponent
             Title="Last Week's Top Products"
-            productsList={products}
+            productsList={productsList}
           />
           <ProductListComponent
             Title="Last Month's Top Products"
-            productsList={products}
+            productsList={productsList}
           />
         </>
       ) : isGettingData ? (
