@@ -8,4 +8,5 @@ export const ProductReducerTypes = {
   addFilters: '[ProductReducerTypes] AddFilters',
   cleanFilters: '[ProductReducerTypes] CleanFilters',
   setIsGettingData: '[ProductReducerTypes] SetIsGettingData',
+  setProductsList: '[ProductReducerTypes] SetProductsList',
 };
