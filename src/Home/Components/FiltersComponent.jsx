@@ -35,7 +35,7 @@ export const FiltersComponent = () => {
     if (!isGettingData) {
       return 'w-full text-white transition ease-in-out delay-150 bg-red-500 hover:-translate-y-1 hover:scale-90  duration-300 h-8 rounded-lg mt-3';
     }
-    return 'w-full text-white transition ease-in-out delay-150 bg-red-100 h-8 rounded-lg mt-3';
+    return 'w-full text-white transition ease-in-out delay-150 bg-red-100 h-8 rounded-lg mt-3 cursor-not-allowed';
   };
 
   const getNames = (data) => {
