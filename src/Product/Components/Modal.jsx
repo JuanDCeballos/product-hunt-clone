@@ -2,7 +2,6 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import Modal from 'react-modal';
 import ReactStars from 'react-rating-stars-component';
 import { Carousel } from 'react-responsive-carousel';
-import { BiSolidUpArrow } from 'react-icons/bi';
 import { CiChat2, CiBookmark } from 'react-icons/ci';
 import { IoShareOutline } from 'react-icons/io5';
 import { PiChartBarThin } from 'react-icons/pi';
@@ -19,9 +18,12 @@ import { useNavigate } from 'react-router-dom';
 Modal.setAppElement(document.getElementById('root'));
 
 const ProductView = ({ isOpen, closeModal }) => {
+  const { productToShowInModal, SetProductToShowInModal } =
+    useContext(ProductContext);
   const textAreaRef = useRef();
   const [val, setVal] = useState('');
   const [rating, setRating] = useState(0);
+  const { productsList, setProductsList } = useContext(ProductContext);
 
   const navigate = useNavigate();
 
@@ -36,9 +38,6 @@ const ProductView = ({ isOpen, closeModal }) => {
       textAreaRef.current.scrollHeight + 'px';
     }
   }, [val]);
-
-  const { productToShowInModal, SetProductToShowInModal } =
-    useContext(ProductContext);
 
   const onChangeStarsRating = (newRating) => {
     setRating(newRating);
@@ -59,16 +58,33 @@ const ProductView = ({ isOpen, closeModal }) => {
       Rating: rating,
     };
 
+    if (!comment.UserDescription) {
+      comment.UserDescription = 'User without description';
+    }
+
     toast.promise(addCommentInProduct(productToShowInModal.id, comment), {
       loading: 'Saving comment...',
       error: 'An error ocurred while trying to comment.',
       success: () => {
         const commentsUpdated = productToShowInModal.comments;
         commentsUpdated.push(comment);
+        const newAverageRating =
+          commentsUpdated.reduce(
+            (partialSum, currentComment) => partialSum + currentComment.Rating,
+            0
+          ) / commentsUpdated.length;
         const newProduct = {
           ...productToShowInModal,
           comments: commentsUpdated,
+          averageRating: newAverageRating,
         };
+        const targetProductIndex = productsList.findIndex(
+          (product) => product.id === productToShowInModal.id
+        );
+        const currentProducts = [...productsList];
+        currentProducts[targetProductIndex].commentsCount =
+          commentsUpdated.length;
+        setProductsList(currentProducts);
         SetProductToShowInModal(newProduct);
         setVal('');
         setRating(0);
@@ -106,14 +122,16 @@ const ProductView = ({ isOpen, closeModal }) => {
                   <button className="border-4 border-orange-300 rounded-md flex items-center text-center justify-center text-black p-1.5  lg:w-80 cursor-default  ">
                     <div className="flex flex-row justify-center items-center gap-4">
                       <p className="text-sm"> Average rating </p>
-                      <ReactStars
-                        value={productToShowInModal?.averageRating}
-                        edit={false}
-                        count={5}
-                        size={34}
-                        activeColor="#ffd700"
-                        isHalf={true}
-                      ></ReactStars>
+                      {
+                        <ReactStars
+                          value={productToShowInModal?.averageRating}
+                          edit={false}
+                          count={5}
+                          size={34}
+                          activeColor="#ffd700"
+                          isHalf={true}
+                        ></ReactStars>
+                      }
                     </div>
                   </button>
                 </div>
