@@ -55,6 +55,13 @@ export const ProductReducer = (state = {}, action) => {
         ...state,
         isGettingData: action.payload,
       };
+
+    case ProductReducerTypes.setProductsList:
+      return {
+        ...state,
+        productsList: action.payload,
+      };
+
     default:
       return state;
   }
